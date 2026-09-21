@@ -1,0 +1,125 @@
+:root {
+  --bg: #1a1a1a;
+  --bg-card: #262626;
+  --bg-card-hover: #303030;
+  --text: #eaeaea;
+  --text-muted: #9a9a9a;
+  --border: #333333;
+  --accent: #4a9eff;
+
+  --status-free: #2d7a3e;
+  --status-occupied: #b85450;
+  --status-reserved: #b58d1e;
+  --status-cleaning: #4a6fa5;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.btn {
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: #3a8eef;
+}
+
+.tables-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.table-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background: var(--bg-card);
+  color: var(--text);
+  text-align: left;
+  font-family: inherit;
+  font-size: 1rem;
+  min-height: 120px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.table-card:hover {
+  background: var(--bg-card-hover);
+}
+
+.table-card.status-free     { border-color: var(--status-free); }
+.table-card.status-occupied { border-color: var(--status-occupied); }
+.table-card.status-reserved { border-color: var(--status-reserved); }
+.table-card.status-cleaning { border-color: var(--status-cleaning); }
+
+.table-name {
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.table-meta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.table-delete {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.table-delete:hover {
+  background: var(--status-occupied);
+  color: #ffffff;
+}

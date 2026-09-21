@@ -16,3 +16,9 @@ window.addEventListener("DOMContentLoaded", async () => {
     console.error("IPC error:", e);
   }
 });
+
+import { mountTablesView } from "./js/views/tables.js";
+
+window.addEventListener("DOMContentLoaded", () => {
+  mountTablesView();
+});
