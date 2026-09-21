@@ -1,18 +1,18 @@
 const { invoke } = window.__TAURI__.core;
 
-let greetInputEl;
-let greetMsgEl;
+window.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const before = await invoke("list_tables");
+    console.log("Tables before:", before);
 
-async function greet() {
-  // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-  greetMsgEl.textContent = await invoke("greet", { name: greetInputEl.value });
-}
+    const created = await invoke("create_table", {
+      input: { name: "Mesa 1", zone: "Terraza", capacity: 4 },
+    });
+    console.log("Created:", created);
 
-window.addEventListener("DOMContentLoaded", () => {
-  greetInputEl = document.querySelector("#greet-input");
-  greetMsgEl = document.querySelector("#greet-msg");
-  document.querySelector("#greet-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    greet();
-  });
+    const after = await invoke("list_tables");
+    console.log("Tables after:", after);
+  } catch (e) {
+    console.error("IPC error:", e);
+  }
 });
