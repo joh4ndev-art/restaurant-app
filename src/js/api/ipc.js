@@ -43,3 +43,10 @@ export const productsApi = {
   update: (input) => call("update_product", { input }),
   remove: (id) => call("delete_product", { id }),
 };
+
+export const ordersApi = {
+  send: (input) => call("send_order", { input }),
+  listOpen: () => call("list_open_orders"),
+  get: (id) => call("get_order", { id }),
+  cancel: (id) => call("cancel_order", { id }),
+};

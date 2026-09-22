@@ -4,9 +4,27 @@
   },
   "nav": {
   "tables": "Mesas",
+  "pos": "TPV",
   "products": "Productos",
   "settings": "Configuración"
   },
+  "pos": {
+    "title": "Punto de Venta",
+    "select_table": "Mesa",
+    "select_table_placeholder": "Selecciona una mesa...",
+    "all_categories": "Todas",
+    "cart_title": "Cuenta",
+    "cart_empty": "Sin productos. Toca un producto para agregarlo.",
+    "no_products": "No hay productos disponibles en esta categoría.",
+    "total": "Total",
+    "send_to_kitchen": "Enviar a cocina",
+    "order_sent": "Orden #{id} enviada. Total: {total}",
+    "errors": {
+      "no_table": "Selecciona primero una mesa.",
+      "empty_cart": "La cuenta está vacía.",
+      "send_failed": "Error al enviar la orden: {message}"
+    }
+  }, 
   "products": {
     "title": "Productos",
     "add_product": "+ Agregar producto",

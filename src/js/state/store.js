@@ -4,6 +4,7 @@
 const listeners = new Set();
 
 let state = {
+  // existing
   tables: [],
   categories: [],
   products: [],
@@ -12,6 +13,13 @@ let state = {
   error: null,
   locale: "en",
   currentView: "tables",
+
+  // new for POS
+  pos: {
+    selectedTableId: null,
+    selectedCategoryId: null, // null = "all"
+    cart: [],                 // [{ productId, name, priceCents, quantity, notes }]
+  },
 };
 
 export function getState() {
@@ -26,4 +34,71 @@ export function setState(patch) {
 export function subscribe(fn) {
   listeners.add(fn);
   return () => listeners.delete(fn);
+}
+
+
+// ---------- POS helpers ----------
+
+export function posSetTable(tableId) {
+  const state = getState();
+  setState({ pos: { ...state.pos, selectedTableId: tableId } });
+}
+
+export function posSetCategory(categoryId) {
+  const state = getState();
+  setState({ pos: { ...state.pos, selectedCategoryId: categoryId } });
+}
+
+export function posAddToCart(product) {
+  const state = getState();
+  const cart = [...state.pos.cart];
+  const existing = cart.find((item) => item.productId === product.id);
+
+  if (existing) {
+    existing.quantity += 1;
+  } else {
+    cart.push({
+      productId: product.id,
+      name: product.name,
+      priceCents: product.price_cents,
+      quantity: 1,
+      notes: null,
+    });
+  }
+
+  setState({ pos: { ...state.pos, cart } });
+}
+
+export function posDecrementFromCart(productId) {
+  const state = getState();
+  let cart = [...state.pos.cart];
+  const existing = cart.find((item) => item.productId === productId);
+
+  if (!existing) return;
+
+  if (existing.quantity > 1) {
+    existing.quantity -= 1;
+  } else {
+    cart = cart.filter((item) => item.productId !== productId);
+  }
+
+  setState({ pos: { ...state.pos, cart } });
+}
+
+export function posRemoveFromCart(productId) {
+  const state = getState();
+  const cart = state.pos.cart.filter((item) => item.productId !== productId);
+  setState({ pos: { ...state.pos, cart } });
+}
+
+export function posClearCart() {
+  const state = getState();
+  setState({ pos: { ...state.pos, cart: [] } });
+}
+
+export function posCartTotal() {
+  return getState().pos.cart.reduce(
+    (sum, item) => sum + item.priceCents * item.quantity,
+    0
+  );
 }

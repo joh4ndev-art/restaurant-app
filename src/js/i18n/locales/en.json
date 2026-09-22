@@ -4,9 +4,27 @@
   },
   "nav": {
   "tables": "Tables",
+  "pos": "POS",
   "products": "Products",
   "settings": "Settings"
   },
+  "pos": {
+    "title": "Point of Sale",
+    "select_table": "Table",
+    "select_table_placeholder": "Select a table...",
+    "all_categories": "All",
+    "cart_title": "Cart",
+    "cart_empty": "No items yet. Tap a product to add it.",
+    "no_products": "No products available in this category.",
+    "total": "Total",
+    "send_to_kitchen": "Send to kitchen",
+    "order_sent": "Order #{id} sent. Total: {total}",
+    "errors": {
+      "no_table": "Please select a table first.",
+      "empty_cart": "The cart is empty.",
+      "send_failed": "Error sending order: {message}"
+    }
+  }, 
   "products": {
     "title": "Products",
     "add_product": "+ Add product",
