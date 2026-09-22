@@ -1,4 +1,5 @@
 import { subscribe, setState, getState } from "../state/store.js";
+import { t, onLocaleChange } from "../i18n/index.js";
 import { tablesApi } from "../api/ipc.js";
 
 // Status cycle when clicking a table.
@@ -7,13 +8,6 @@ const STATUS_CYCLE = {
   occupied: "cleaning",
   cleaning: "free",
   reserved: "occupied",
-};
-
-const STATUS_LABEL = {
-  free: "Free",
-  occupied: "Occupied",
-  reserved: "Reserved",
-  cleaning: "Cleaning",
 };
 
 // ---------- Data loading ----------
@@ -31,21 +25,21 @@ async function loadTables() {
 }
 
 async function createTable() {
-  const name = prompt("Table name:");
+  const name = prompt(t("tables.prompts.name"));
   if (!name) return;
 
-  const zone = prompt("Zone (optional):") || null;
-  const capacityStr = prompt("Capacity:", "4");
+  const zone = prompt(t("tables.prompts.zone")) || null;
+  const capacityStr = prompt(t("tables.prompts.capacity"), "4");
   const capacity = parseInt(capacityStr, 10);
 
   if (!Number.isInteger(capacity) || capacity <= 0) {
-    alert("Capacity must be a positive number.");
+    alert(t("tables.errors.capacity_invalid"));
     return;
   }
 
   const result = await tablesApi.create({ name, zone, capacity });
   if (!result.ok) {
-    alert(`Error: ${result.error.message}`);
+    alert(t("tables.errors.create_failed", { message: result.error.message }));
     return;
   }
 
@@ -57,7 +51,7 @@ async function cycleStatus(table) {
   const result = await tablesApi.updateStatus(table.id, next);
 
   if (!result.ok) {
-    alert(`Error: ${result.error.message}`);
+    alert(t("tables.errors.update_failed", { message: result.error.message }));
     return;
   }
 
@@ -65,11 +59,11 @@ async function cycleStatus(table) {
 }
 
 async function deleteTable(table) {
-  if (!confirm(`Delete "${table.name}"?`)) return;
+  if (!confirm(t("tables.confirm_delete", { name: table.name }))) return;
 
   const result = await tablesApi.remove(table.id);
   if (!result.ok) {
-    alert(`Error: ${result.error.message}`);
+    alert(t("tables.errors.delete_failed", { message: result.error.message }));
     return;
   }
 
@@ -89,13 +83,14 @@ function tableCard(table) {
 
   const meta = document.createElement("span");
   meta.className = "table-meta";
+  const statusLabel = t(`tables.status.${table.status}`);
   const zone = table.zone ? ` · ${table.zone}` : "";
-  meta.textContent = `${STATUS_LABEL[table.status]}${zone} · ${table.capacity}p`;
+  meta.textContent = `${statusLabel}${zone} · ${table.capacity}p`;
 
   const del = document.createElement("span");
   del.className = "table-delete";
   del.textContent = "×";
-  del.title = "Delete table";
+  del.title = t("tables.confirm_delete", { name: table.name });
   del.addEventListener("click", (event) => {
     event.stopPropagation();
     deleteTable(table);
@@ -113,17 +108,17 @@ function render(state) {
   root.innerHTML = "";
 
   if (state.loading) {
-    root.textContent = "Loading...";
+    root.textContent = t("common.loading");
     return;
   }
 
   if (state.error) {
-    root.textContent = `Error: ${state.error}`;
+    root.textContent = `${t("common.error")}: ${state.error}`;
     return;
   }
 
   if (state.tables.length === 0) {
-    root.textContent = "No tables yet. Click 'Add table' to create one.";
+    root.textContent = t("tables.empty");
     return;
   }
 
@@ -136,6 +131,7 @@ function render(state) {
 
 export function mountTablesView() {
   subscribe(render);
+  onLocaleChange(() => render(getState()));
 
   document
     .getElementById("add-table-btn")

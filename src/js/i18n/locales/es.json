@@ -1,0 +1,43 @@
+{
+  "app": {
+    "title": "Restaurante"
+  },
+  "nav": {
+    "tables": "Mesas",
+    "settings": "Configuración"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error"
+  },
+  "tables": {
+    "title": "Mesas",
+    "add_button": "+ Agregar mesa",
+    "empty": "Aún no hay mesas. Haz clic en 'Agregar mesa' para crear una.",
+    "status": {
+      "free": "Libre",
+      "occupied": "Ocupada",
+      "reserved": "Reservada",
+      "cleaning": "Limpieza"
+    },
+    "prompts": {
+      "name": "Nombre de la mesa:",
+      "zone": "Zona (opcional):",
+      "capacity": "Capacidad:"
+    },
+    "confirm_delete": "¿Eliminar \"{name}\"?",
+    "errors": {
+      "capacity_invalid": "La capacidad debe ser un número positivo.",
+      "create_failed": "Error al crear la mesa: {message}",
+      "update_failed": "Error al actualizar la mesa: {message}",
+      "delete_failed": "Error al eliminar la mesa: {message}"
+    }
+  },
+  "settings": {
+    "title": "Configuración",
+    "language": {
+      "label": "Idioma",
+      "description": "Elige el idioma de la aplicación."
+    }
+  }
+}

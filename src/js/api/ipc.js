@@ -25,3 +25,8 @@ export const tablesApi = {
   updateStatus: (id, status) => call("update_table_status", { id, status }),
   remove: (id) => call("delete_table", { id }),
 };
+
+export const settingsApi = {
+  get: (key) => call("get_setting", { key }),
+  set: (key, value) => call("set_setting", { key, value }),
+};

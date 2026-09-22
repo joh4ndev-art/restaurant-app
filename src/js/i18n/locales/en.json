@@ -1,0 +1,43 @@
+{
+  "app": {
+    "title": "Restaurant App"
+  },
+  "nav": {
+    "tables": "Tables",
+    "settings": "Settings"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error"
+  },
+  "tables": {
+    "title": "Tables",
+    "add_button": "+ Add table",
+    "empty": "No tables yet. Click 'Add table' to create one.",
+    "status": {
+      "free": "Free",
+      "occupied": "Occupied",
+      "reserved": "Reserved",
+      "cleaning": "Cleaning"
+    },
+    "prompts": {
+      "name": "Table name:",
+      "zone": "Zone (optional):",
+      "capacity": "Capacity:"
+    },
+    "confirm_delete": "Delete \"{name}\"?",
+    "errors": {
+      "capacity_invalid": "Capacity must be a positive number.",
+      "create_failed": "Error creating table: {message}",
+      "update_failed": "Error updating table: {message}",
+      "delete_failed": "Error deleting table: {message}"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "language": {
+      "label": "Language",
+      "description": "Choose the language for the application."
+    }
+  }
+}
