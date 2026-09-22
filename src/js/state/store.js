@@ -5,8 +5,13 @@ const listeners = new Set();
 
 let state = {
   tables: [],
+  categories: [],
+  products: [],
   loading: false,
+  productsLoading: false,
   error: null,
+  locale: "en",
+  currentView: "tables",
 };
 
 export function getState() {

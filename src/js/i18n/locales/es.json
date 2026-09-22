@@ -3,8 +3,43 @@
     "title": "Restaurante"
   },
   "nav": {
-    "tables": "Mesas",
-    "settings": "Configuración"
+  "tables": "Mesas",
+  "products": "Productos",
+  "settings": "Configuración"
+  },
+  "products": {
+    "title": "Productos",
+    "add_product": "+ Agregar producto",
+    "add_category": "+ Agregar categoría",
+    "empty": "Aún no hay categorías. Haz clic en '+ Agregar categoría' para empezar.",
+    "category_empty": "Aún no hay productos en esta categoría.",
+    "no_categories": "Crea primero una categoría antes de agregar productos.",
+    "delete_product": "Eliminar producto",
+    "delete_category": "Eliminar categoría",
+    "confirm_delete_product": "¿Eliminar \"{name}\"?",
+    "confirm_delete_category": "¿Eliminar la categoría \"{name}\"?",
+    "form": {
+      "title_create": "Nuevo producto",
+      "name": "Nombre",
+      "category": "Categoría",
+      "price": "Precio",
+      "description": "Descripción (opcional)",
+      "save": "Guardar",
+      "cancel": "Cancelar"
+    },
+    "category_form": {
+      "title": "Nueva categoría",
+      "name": "Nombre",
+      "save": "Crear"
+    },
+    "errors": {
+      "create_failed": "Error al crear el producto: {message}",
+      "update_failed": "Error al actualizar el producto: {message}",
+      "delete_failed": "Error al eliminar el producto: {message}",
+      "category_create_failed": "Error al crear la categoría: {message}",
+      "category_delete_failed": "Error al eliminar la categoría: {message}",
+      "invalid_price": "El precio debe ser un número positivo."
+    }
   },
   "common": {
     "loading": "Cargando...",

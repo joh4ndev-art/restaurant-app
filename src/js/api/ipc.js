@@ -30,3 +30,16 @@ export const settingsApi = {
   get: (key) => call("get_setting", { key }),
   set: (key, value) => call("set_setting", { key, value }),
 };
+
+export const categoriesApi = {
+  list: () => call("list_categories"),
+  create: (input) => call("create_category", { input }),
+  remove: (id) => call("delete_category", { id }),
+};
+
+export const productsApi = {
+  list: () => call("list_products"),
+  create: (input) => call("create_product", { input }),
+  update: (input) => call("update_product", { input }),
+  remove: (id) => call("delete_product", { id }),
+};

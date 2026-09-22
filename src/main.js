@@ -1,6 +1,7 @@
 import { initI18n, t, onLocaleChange } from "./js/i18n/index.js";
 import { initRouter } from "./js/router.js";
 import { mountTablesView } from "./js/views/tables.js";
+import { mountProductsView } from "./js/views/products.js";
 import { mountSettingsView } from "./js/views/settings.js";
 import { getState } from "./js/state/store.js";
 
@@ -10,12 +11,14 @@ function applyStaticTranslations() {
   document.title = t("app.title");
   document.getElementById("app-title").textContent = t("app.title");
   document.getElementById("tables-title").textContent = t("tables.title");
+  document.getElementById("products-title").textContent = t("products.title");
   document.getElementById("add-table-btn").textContent = t("tables.add_button");
+  document.getElementById("add-category-btn").textContent = t("products.add_category");
+  document.getElementById("add-product-btn").textContent = t("products.add_product");
 
-  const navTables = document.querySelector('[data-nav="tables"]');
-  const navSettings = document.querySelector('[data-nav="settings"]');
-  if (navTables) navTables.textContent = t("nav.tables");
-  if (navSettings) navSettings.textContent = t("nav.settings");
+  document.querySelector('[data-nav="tables"]').textContent = t("nav.tables");
+  document.querySelector('[data-nav="products"]').textContent = t("nav.products");
+  document.querySelector('[data-nav="settings"]').textContent = t("nav.settings");
 
   document.documentElement.lang = state.locale ?? "en";
 }
@@ -25,6 +28,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   applyStaticTranslations();
   mountTablesView();
+  mountProductsView();
   mountSettingsView();
   initRouter();
 

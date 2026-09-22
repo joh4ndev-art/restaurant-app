@@ -11,6 +11,7 @@
       <h1 id="app-title">Restaurant App</h1>
       <nav class="nav">
         <button class="nav-btn active" data-nav="tables" type="button">Tables</button>
+        <button class="nav-btn" data-nav="products" type="button">Products</button>
         <button class="nav-btn" data-nav="settings" type="button">Settings</button>
       </nav>
     </header>
@@ -24,6 +25,21 @@
           </button>
         </div>
         <div id="tables-grid" class="tables-grid"></div>
+      </section>
+
+      <section id="view-products" class="view hidden" data-view="products">
+        <div class="view-header">
+          <h2 id="products-title">Products</h2>
+          <div class="view-actions">
+            <button id="add-category-btn" class="btn" type="button">
+              + Add category
+            </button>
+            <button id="add-product-btn" class="btn btn-primary" type="button">
+              + Add product
+            </button>
+          </div>
+        </div>
+        <div id="products-container"></div>
       </section>
 
       <section id="view-settings" class="view hidden" data-view="settings"></section>

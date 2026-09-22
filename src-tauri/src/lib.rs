@@ -38,6 +38,13 @@ pub fn run() {
             commands::tables::delete_table,
             commands::settings::get_setting,
             commands::settings::set_setting,
+            commands::categories::list_categories,
+            commands::categories::create_category,
+            commands::categories::delete_category,
+            commands::products::list_products,
+            commands::products::create_product,
+            commands::products::update_product,
+            commands::products::delete_product,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
