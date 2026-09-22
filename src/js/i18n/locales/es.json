@@ -5,8 +5,43 @@
   "nav": {
   "tables": "Mesas",
   "pos": "TPV",
+  "orders": "Órdenes",
   "products": "Productos",
   "settings": "Configuración"
+  },
+  "orders": {
+    "title": "Órdenes",
+    "empty": "No hay órdenes activas.",
+    "card": {
+      "table": "Mesa #{id}",
+      "no_table": "Sin mesa",
+      "items": "{count} ítem(s)"
+    },
+    "status": {
+      "open": "Abierta",
+      "sent_to_kitchen": "En cocina",
+      "served": "Servida",
+      "paid": "Pagada",
+      "cancelled": "Cancelada"
+    },
+    "detail": {
+      "title": "Orden #{id}",
+      "status": "Estado",
+      "table": "Mesa",
+      "total": "Total",
+      "items": "Ítems",
+      "no_items": "Esta orden no tiene ítems.",
+      "close": "Cerrar"
+    },
+    "actions": {
+      "mark_served": "Marcar como servida",
+      "cancel": "Cancelar orden"
+    },
+    "confirm_cancel": "¿Cancelar la orden #{id}? La mesa quedará libre.",
+    "errors": {
+      "serve_failed": "Error al marcar como servida: {message}",
+      "cancel_failed": "Error al cancelar la orden: {message}"
+    }
   },
   "pos": {
     "title": "Punto de Venta",
@@ -79,11 +114,13 @@
       "capacity": "Capacidad:"
     },
     "confirm_delete": "¿Eliminar \"{name}\"?",
+    "click_to_view_order": "Clic para ver la orden",
     "errors": {
       "capacity_invalid": "La capacidad debe ser un número positivo.",
       "create_failed": "Error al crear la mesa: {message}",
       "update_failed": "Error al actualizar la mesa: {message}",
-      "delete_failed": "Error al eliminar la mesa: {message}"
+      "delete_failed": "Error al eliminar la mesa: {message}",
+      "load_order_failed": "Error al cargar la orden de la mesa: {message}"
     }
   },
   "settings": {

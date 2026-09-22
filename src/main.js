@@ -2,6 +2,7 @@ import { initI18n, t, onLocaleChange } from "./js/i18n/index.js";
 import { initRouter } from "./js/router.js";
 import { mountTablesView } from "./js/views/tables.js";
 import { mountPosView } from "./js/views/pos.js";
+import { mountOrdersView } from "./js/views/orders.js";
 import { mountProductsView } from "./js/views/products.js";
 import { mountSettingsView } from "./js/views/settings.js";
 import { getState } from "./js/state/store.js";
@@ -30,6 +31,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   applyStaticTranslations();
   mountTablesView();
   mountPosView();
+  mountOrdersView();
   mountProductsView();
   mountSettingsView();
   initRouter();
@@ -38,5 +40,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     applyStaticTranslations();
     document.documentElement.lang = locale;
     document.querySelector('[data-nav="pos"]').textContent = t("nav.pos");
+    document.getElementById("orders-title").textContent = t("orders.title");
+    document.querySelector('[data-nav="orders"]').textContent = t("nav.orders");
   });
 });

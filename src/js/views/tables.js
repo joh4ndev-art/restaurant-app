@@ -1,6 +1,8 @@
 import { subscribe, setState, getState } from "../state/store.js";
 import { t, onLocaleChange } from "../i18n/index.js";
 import { tablesApi } from "../api/ipc.js";
+import { ordersApi } from "../api/ipc.js";
+import { openOrderDetailModal } from "../components/order_detail_modal.js";
 
 // Status cycle when clicking a table.
 const STATUS_CYCLE = {
@@ -46,15 +48,37 @@ async function createTable() {
   await loadTables();
 }
 
-async function cycleStatus(table) {
+async function handleTableClick(table) {
+  // If the table has an active order, open its detail modal.
+  if (table.status === "occupied") {
+    const res = await ordersApi.getActiveForTable(table.id);
+    if (!res.ok) {
+      alert(t("tables.errors.load_order_failed", { message: res.error.message }));
+      return;
+    }
+
+    if (res.data) {
+      const action = await openOrderDetailModal(res.data);
+      if (!action) return;
+
+      if (action === "served") {
+        await ordersApi.markServed(res.data.id);
+      } else if (action === "cancelled") {
+        await ordersApi.cancel(res.data.id);
+      }
+      await loadTables();
+      return;
+    }
+    // No active order? Fall through to the default status cycle.
+  }
+
+  // Default behavior: cycle status on click.
   const next = STATUS_CYCLE[table.status] ?? "free";
   const result = await tablesApi.updateStatus(table.id, next);
-
   if (!result.ok) {
     alert(t("tables.errors.update_failed", { message: result.error.message }));
     return;
   }
-
   await loadTables();
 }
 
@@ -94,10 +118,17 @@ function tableCard(table) {
   del.addEventListener("click", (event) => {
     event.stopPropagation();
     deleteTable(table);
+
+    if (table.status === "occupied") {
+      const hint = document.createElement("span");
+      hint.className = "table-hint";
+      hint.textContent = t("tables.click_to_view_order");
+      card.appendChild(hint);
+    }
   });
 
   card.append(name, meta, del);
-  card.addEventListener("click", () => cycleStatus(table));
+  card.addEventListener("click", () => handleTableClick(table));
   return card;
 }
 

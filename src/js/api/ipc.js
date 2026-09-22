@@ -49,4 +49,7 @@ export const ordersApi = {
   listOpen: () => call("list_open_orders"),
   get: (id) => call("get_order", { id }),
   cancel: (id) => call("cancel_order", { id }),
+  getActiveForTable: (tableId) => call("get_active_order_for_table", { table_id: tableId }),
+  markServed: (id) => call("mark_order_served", { id }),
+  listByStatuses: (statuses) => call("list_orders_by_status", { statuses }),
 };

@@ -31,3 +31,30 @@ pub fn cancel_order(state: State<'_, AppState>, id: i64) -> AppResult<()> {
     let conn = state.conn()?;
     OrderService::cancel(&conn, id)
 }
+
+#[tauri::command(rename_all = "snake_case")]
+pub fn get_active_order_for_table(
+    state: State<'_, AppState>,
+    table_id: i64,
+) -> AppResult<Option<Order>> {
+    let conn = state.conn()?;
+    OrderService::get_active_for_table(&conn, table_id)
+}
+
+#[tauri::command(rename_all = "snake_case")]
+pub fn mark_order_served(
+    state: State<'_, AppState>,
+    id: i64,
+) -> AppResult<Order> {
+    let conn = state.conn()?;
+    OrderService::mark_served(&conn, id)
+}
+
+#[tauri::command(rename_all = "snake_case")]
+pub fn list_orders_by_status(
+    state: State<'_, AppState>,
+    statuses: Vec<crate::domain::OrderStatus>,
+) -> AppResult<Vec<Order>> {
+    let conn = state.conn()?;
+    OrderService::list_by_statuses(&conn, &statuses)
+}

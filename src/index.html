@@ -12,6 +12,7 @@
       <nav class="nav">
         <button class="nav-btn active" data-nav="tables" type="button">Tables</button>
         <button class="nav-btn" data-nav="pos" type="button">POS</button>
+        <button class="nav-btn" data-nav="orders" type="button">Orders</button>
         <button class="nav-btn" data-nav="products" type="button">Products</button>
         <button class="nav-btn" data-nav="settings" type="button">Settings</button>
       </nav>
@@ -37,6 +38,13 @@
           </div>
           <aside id="pos-cart" class="pos-cart"></aside>
         </div>
+      </section>
+
+      <section id="view-orders" class="view hidden" data-view="orders">
+        <div class="view-header">
+          <h2 id="orders-title">Orders</h2>
+        </div>
+        <div id="orders-container"></div>
       </section>
 
       <section id="view-products" class="view hidden" data-view="products">

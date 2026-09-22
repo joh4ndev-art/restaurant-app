@@ -122,6 +122,47 @@ impl OrderService {
             )));
         }
 
-        repo.update_order_status(id, OrderStatus::Cancelled)
+        let tx = conn.unchecked_transaction()?;
+
+        OrderRepository::new(&tx).update_order_status(id, OrderStatus::Cancelled)?;
+
+        // Free the table by moving it to `cleaning`.
+        // This runs in the same transaction: either both succeed, or neither.
+        if let Some(table_id) = order.table_id {
+            TableRepository::new(&tx).update_status(table_id, TableStatus::Cleaning)?;
+        }
+
+        tx.commit()?;
+        Ok(())
+    }
+
+    pub fn get_active_for_table(
+        conn: &Connection,
+        table_id: i64,
+    ) -> AppResult<Option<Order>> {
+        OrderRepository::new(conn).get_active_for_table(table_id)
+    }
+
+    pub fn mark_served(conn: &Connection, id: i64) -> AppResult<Order> {
+        let repo = OrderRepository::new(conn);
+        let order = repo.get_order(id)?;
+
+        // Only `sent_to_kitchen` orders can be marked as served.
+        if order.status != OrderStatus::SentToKitchen {
+            return Err(AppError::Validation(format!(
+                "cannot mark as served: order is in status '{}'",
+                order.status.as_str()
+            )));
+        }
+
+        repo.update_order_status(id, OrderStatus::Served)?;
+        repo.get_order(id)
+    }
+
+    pub fn list_by_statuses(
+        conn: &Connection,
+        statuses: &[OrderStatus],
+    ) -> AppResult<Vec<Order>> {
+        OrderRepository::new(conn).list_by_statuses(statuses)
     }
 }

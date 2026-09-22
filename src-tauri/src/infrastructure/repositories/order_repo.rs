@@ -167,4 +167,55 @@ impl<'a> OrderRepository<'a> {
         }
         Ok(())
     }
+
+    pub fn get_active_for_table(&self, table_id: i64) -> AppResult<Option<Order>> {
+        use rusqlite::OptionalExtension;
+
+        let id: Option<i64> = self
+            .conn
+            .query_row(
+                "SELECT id FROM orders
+                WHERE table_id = ?1
+                AND status IN ('open', 'sent_to_kitchen', 'served')
+                ORDER BY created_at DESC
+                LIMIT 1",
+                params![table_id],
+                |row| row.get(0),
+            )
+            .optional()?;
+
+        match id {
+            Some(id) => Ok(Some(self.get_order(id)?)),
+            None => Ok(None),
+        }
+    }
+
+    pub fn list_by_statuses(&self, statuses: &[OrderStatus]) -> AppResult<Vec<Order>> {
+        if statuses.is_empty() {
+            return Ok(Vec::new());
+        }
+
+        // Build a parameterized IN clause: (?, ?, ?)
+        let placeholders = statuses
+            .iter()
+            .map(|_| "?")
+            .collect::<Vec<_>>()
+            .join(", ");
+        let sql = format!(
+            "SELECT id FROM orders WHERE status IN ({placeholders}) ORDER BY created_at DESC"
+        );
+
+        let status_strs: Vec<&str> = statuses.iter().map(|s| s.as_str()).collect();
+        let mut stmt = self.conn.prepare(&sql)?;
+
+        let ids: Vec<i64> = stmt
+            .query_map(rusqlite::params_from_iter(status_strs.iter()), |row| row.get(0))?
+            .collect::<Result<_, _>>()?;
+
+        let mut orders = Vec::new();
+        for id in ids {
+            orders.push(self.get_order(id)?);
+        }
+        Ok(orders)
+    }
 }

@@ -5,8 +5,43 @@
   "nav": {
   "tables": "Tables",
   "pos": "POS",
+  "orders": "Orders",
   "products": "Products",
   "settings": "Settings"
+  },
+  "orders": {
+    "title": "Orders",
+    "empty": "No active orders.",
+    "card": {
+      "table": "Table #{id}",
+      "no_table": "No table",
+      "items": "{count} item(s)"
+    },
+    "status": {
+      "open": "Open",
+      "sent_to_kitchen": "In kitchen",
+      "served": "Served",
+      "paid": "Paid",
+      "cancelled": "Cancelled"
+    },
+    "detail": {
+      "title": "Order #{id}",
+      "status": "Status",
+      "table": "Table",
+      "total": "Total",
+      "items": "Items",
+      "no_items": "No items in this order.",
+      "close": "Close"
+    },
+    "actions": {
+      "mark_served": "Mark as served",
+      "cancel": "Cancel order"
+    },
+    "confirm_cancel": "Cancel order #{id}? The table will be freed.",
+    "errors": {
+      "serve_failed": "Error marking as served: {message}",
+      "cancel_failed": "Error cancelling order: {message}"
+    }
   },
   "pos": {
     "title": "Point of Sale",
@@ -79,11 +114,13 @@
       "capacity": "Capacity:"
     },
     "confirm_delete": "Delete \"{name}\"?",
+    "click_to_view_order": "Click to view order",
     "errors": {
       "capacity_invalid": "Capacity must be a positive number.",
       "create_failed": "Error creating table: {message}",
       "update_failed": "Error updating table: {message}",
-      "delete_failed": "Error deleting table: {message}"
+      "delete_failed": "Error deleting table: {message}",
+      "load_order_failed": "Error loading table order: {message}"
     }
   },
   "settings": {
