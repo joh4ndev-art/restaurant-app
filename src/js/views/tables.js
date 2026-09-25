@@ -5,6 +5,7 @@ import { ordersApi } from "../api/ipc.js";
 import { openOrderDetailModal } from "../components/order_detail_modal.js";
 import { openPaymentModal } from "../components/payment_modal.js";
 import { registerViewHook } from "../router.js";
+import { onOrdersChanged } from "../events.js";
 
 // Status cycle when clicking a table.
 const STATUS_CYCLE = {
@@ -175,6 +176,7 @@ export function mountTablesView() {
     ?.addEventListener("click", createTable);
 
   registerViewHook("tables", loadTables);
+  onOrdersChanged(() => loadTables());
 
   render(getState());
   loadTables();

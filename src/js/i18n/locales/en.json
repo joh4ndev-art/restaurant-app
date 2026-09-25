@@ -6,9 +6,10 @@
   "tables": "Tables",
   "pos": "POS",
   "orders": "Orders",
+  "kitchen": "Kitchen",
   "products": "Products",
   "reports": "Reports",
-  "settings": "Settings"
+  "settings": "Settings"  
   },
   "orders": {
     "title": "Orders",
@@ -184,6 +185,22 @@
       "orders": "Orders",
       "total": "Total",
       "empty": "No sales in this period."
+    }
+  },
+  "kitchen": {
+    "title": "Kitchen",
+    "empty": "No pending orders. Nice work!",
+    "card": {
+      "table": "Table #{id}",
+      "no_table": "No table"
+    },
+    "elapsed_minutes": "{count} min",
+    "elapsed_hours": "{hours}h {minutes}m",
+    "actions": {
+      "mark_served": "Mark as served"
+    },
+    "errors": {
+      "serve_failed": "Error marking as served: {message}"
     }
   }
 }

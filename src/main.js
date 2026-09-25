@@ -7,6 +7,8 @@ import { mountProductsView } from "./js/views/products.js";
 import { mountSettingsView } from "./js/views/settings.js";
 import { getState } from "./js/state/store.js";
 import { mountReportsView } from "./js/views/reports.js";
+import { startEventBridge } from "./js/events.js";
+import { mountKitchenView } from "./js/views/kitchen.js";
 
 function applyStaticTranslations() {
   const state = getState();
@@ -28,11 +30,13 @@ function applyStaticTranslations() {
 
 window.addEventListener("DOMContentLoaded", async () => {
   await initI18n();
+  await startEventBridge();
 
   applyStaticTranslations();
   mountTablesView();
   mountPosView();
   mountOrdersView();
+  mountKitchenView();
   mountReportsView();
   mountProductsView();
   mountSettingsView();
@@ -46,5 +50,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     document.querySelector('[data-nav="orders"]').textContent = t("nav.orders");
     document.getElementById("reports-title").textContent = t("reports.title");
     document.querySelector('[data-nav="reports"]').textContent = t("nav.reports");
+    document.getElementById("kitchen-title").textContent = t("kitchen.title");
+    document.querySelector('[data-nav="kitchen"]').textContent = t("nav.kitchen");
   });
 });

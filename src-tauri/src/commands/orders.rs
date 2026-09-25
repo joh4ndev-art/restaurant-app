@@ -1,17 +1,24 @@
-use tauri::State;
+use tauri::{AppHandle, Emitter, State};
 
 use crate::domain::{Order, SendOrderInput};
 use crate::error::AppResult;
 use crate::services::OrderService;
 use crate::state::AppState;
 
+/// Event name emitted whenever the set of orders changes.
+/// Frontend listeners subscribe to this to refresh their views.
+const EVENTS_ORDERS_CHANGED: &str = "orders:changed";
+
 #[tauri::command(rename_all = "snake_case")]
 pub fn send_order(
+    app: AppHandle,
     state: State<'_, AppState>,
     input: SendOrderInput,
 ) -> AppResult<Order> {
     let conn = state.conn()?;
-    OrderService::send_to_kitchen(&conn, input)
+    let order = OrderService::send_to_kitchen(&conn, input)?;
+    let _ = app.emit(EVENTS_ORDERS_CHANGED, ());
+    Ok(order)
 }
 
 #[tauri::command(rename_all = "snake_case")]
@@ -27,9 +34,15 @@ pub fn get_order(state: State<'_, AppState>, id: i64) -> AppResult<Order> {
 }
 
 #[tauri::command(rename_all = "snake_case")]
-pub fn cancel_order(state: State<'_, AppState>, id: i64) -> AppResult<()> {
+pub fn cancel_order(
+    app: AppHandle,
+    state: State<'_, AppState>,
+    id: i64,
+) -> AppResult<()> {
     let conn = state.conn()?;
-    OrderService::cancel(&conn, id)
+    OrderService::cancel(&conn, id)?;
+    let _ = app.emit(EVENTS_ORDERS_CHANGED, ());
+    Ok(())
 }
 
 #[tauri::command(rename_all = "snake_case")]
@@ -43,11 +56,14 @@ pub fn get_active_order_for_table(
 
 #[tauri::command(rename_all = "snake_case")]
 pub fn mark_order_served(
+    app: AppHandle,
     state: State<'_, AppState>,
     id: i64,
 ) -> AppResult<Order> {
     let conn = state.conn()?;
-    OrderService::mark_served(&conn, id)
+    let order = OrderService::mark_served(&conn, id)?;
+    let _ = app.emit(EVENTS_ORDERS_CHANGED, ());
+    Ok(order)
 }
 
 #[tauri::command(rename_all = "snake_case")]

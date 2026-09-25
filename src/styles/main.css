@@ -1093,3 +1093,128 @@ html, body {
   color: var(--status-occupied);
   font-style: normal;
 }
+
+
+/* ---------- Kitchen (KDS) ---------- */
+
+.kds-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.kds-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: var(--bg-card);
+  border: 3px solid var(--border);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.kds-card.kds-card-fresh {
+  border-color: var(--status-free);
+  box-shadow: 0 0 0 1px rgba(45, 122, 62, 0.2);
+}
+
+.kds-card.kds-card-warning {
+  border-color: var(--status-reserved);
+  box-shadow: 0 0 0 1px rgba(181, 141, 30, 0.25);
+}
+
+.kds-card.kds-card-urgent {
+  border-color: var(--status-occupied);
+  box-shadow: 0 0 0 1px rgba(184, 84, 80, 0.35);
+  animation: kds-pulse 2s infinite;
+}
+
+@keyframes kds-pulse {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(184, 84, 80, 0.35); }
+  50%      { box-shadow: 0 0 0 6px rgba(184, 84, 80, 0.15); }
+}
+
+.kds-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.kds-card-id {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.kds-card-time {
+  font-size: 0.95rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
+
+.kds-card.kds-card-fresh   .kds-card-time { color: var(--status-free); }
+.kds-card.kds-card-warning .kds-card-time { color: var(--status-reserved); }
+.kds-card.kds-card-urgent  .kds-card-time { color: var(--status-occupied); }
+
+.kds-card-table {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.kds-card-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1;
+}
+
+.kds-card-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.4rem 0.6rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+  font-size: 1rem;
+}
+
+.kds-card-item:last-child { border-bottom: none; }
+
+.kds-item-qty {
+  font-weight: 700;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.kds-item-name {
+  font-weight: 500;
+}
+
+.kds-item-notes {
+  grid-column: 2;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--status-reserved);
+  margin-top: 0.15rem;
+}
+
+.kds-serve-btn {
+  margin-top: auto;
+  padding: 0.65rem;
+  font-size: 0.95rem;
+}
+
+.kds-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: 1.1rem;
+}

@@ -4,6 +4,7 @@ import { ordersApi } from "../api/ipc.js";
 import { openOrderDetailModal } from "../components/order_detail_modal.js";
 import { openPaymentModal } from "../components/payment_modal.js";
 import { registerViewHook } from "../router.js";
+import { onOrdersChanged } from "../events.js";
 
 // Statuses considered "active" for this view.
 const ACTIVE_STATUSES = ["open", "sent_to_kitchen", "served"];
@@ -138,8 +139,8 @@ function render(state) {
 export function mountOrdersView() {
   subscribe(render);
   onLocaleChange(() => render(getState()));
-
   registerViewHook("orders", loadOrders);
+  onOrdersChanged(() => loadOrders());
 
   render(getState());
   loadOrders();

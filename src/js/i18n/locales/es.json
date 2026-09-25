@@ -6,6 +6,7 @@
   "tables": "Mesas",
   "pos": "TPV",
   "orders": "Órdenes",
+  "kitchen": "Cocina",
   "products": "Productos",
   "reports": "Reportes",
   "settings": "Configuración"
@@ -184,6 +185,22 @@
       "orders": "Órdenes",
       "total": "Total",
       "empty": "Sin ventas en este período."
+    }
+  },
+  "kitchen": {
+    "title": "Cocina",
+    "empty": "No hay órdenes pendientes. ¡Buen trabajo!",
+    "card": {
+      "table": "Mesa #{id}",
+      "no_table": "Sin mesa"
+    },
+    "elapsed_minutes": "{count} min",
+    "elapsed_hours": "{hours}h {minutes}m",
+    "actions": {
+      "mark_served": "Marcar como servida"
+    },
+    "errors": {
+      "serve_failed": "Error al marcar como servida: {message}"
     }
   }
 }
