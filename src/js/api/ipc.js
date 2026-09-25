@@ -59,3 +59,8 @@ export const paymentsApi = {
   pay: (input) => call("pay_order", { input }),
   summary: (orderId) => call("get_payment_summary", { order_id: orderId }),
 };
+
+
+export const reportsApi = {
+  generate: (input) => call("generate_report", { input }),
+};

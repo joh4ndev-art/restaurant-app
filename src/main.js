@@ -6,6 +6,7 @@ import { mountOrdersView } from "./js/views/orders.js";
 import { mountProductsView } from "./js/views/products.js";
 import { mountSettingsView } from "./js/views/settings.js";
 import { getState } from "./js/state/store.js";
+import { mountReportsView } from "./js/views/reports.js";
 
 function applyStaticTranslations() {
   const state = getState();
@@ -32,6 +33,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   mountTablesView();
   mountPosView();
   mountOrdersView();
+  mountReportsView();
   mountProductsView();
   mountSettingsView();
   initRouter();
@@ -42,5 +44,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     document.querySelector('[data-nav="pos"]').textContent = t("nav.pos");
     document.getElementById("orders-title").textContent = t("orders.title");
     document.querySelector('[data-nav="orders"]').textContent = t("nav.orders");
+    document.getElementById("reports-title").textContent = t("reports.title");
+    document.querySelector('[data-nav="reports"]').textContent = t("nav.reports");
   });
 });

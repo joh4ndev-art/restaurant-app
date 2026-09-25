@@ -7,6 +7,7 @@
   "pos": "POS",
   "orders": "Orders",
   "products": "Products",
+  "reports": "Reports",
   "settings": "Settings"
   },
   "orders": {
@@ -152,6 +153,37 @@
       "load_failed": "Error loading payment summary: {message}",
       "invalid_amount": "Enter a valid amount greater than zero.",
       "pay_failed": "Error registering payment: {message}"
+    }
+  },
+  "reports": {
+    "title": "Reports",
+    "presets": {
+      "today": "Today",
+      "last7": "Last 7 days",
+      "month": "This month",
+      "custom": "Custom"
+    },
+    "from": "From",
+    "to": "To",
+    "summary": {
+      "total_sales": "Total sales",
+      "orders": "Orders",
+      "average_ticket": "Average ticket",
+      "payments": "Payments"
+    },
+    "top_products": {
+      "title": "Top products",
+      "product": "Product",
+      "quantity": "Qty",
+      "revenue": "Revenue",
+      "empty": "No sales in this period."
+    },
+    "sales_by_day": {
+      "title": "Sales by day",
+      "date": "Date",
+      "orders": "Orders",
+      "total": "Total",
+      "empty": "No sales in this period."
     }
   }
 }

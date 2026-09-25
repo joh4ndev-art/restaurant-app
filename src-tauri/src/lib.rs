@@ -54,6 +54,7 @@ pub fn run() {
             commands::orders::list_orders_by_status,
             commands::payments::pay_order,
             commands::payments::get_payment_summary,
+            commands::reports::generate_report,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

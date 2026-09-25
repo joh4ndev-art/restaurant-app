@@ -7,6 +7,7 @@
   "pos": "TPV",
   "orders": "Órdenes",
   "products": "Productos",
+  "reports": "Reportes",
   "settings": "Configuración"
   },
   "orders": {
@@ -152,6 +153,37 @@
       "load_failed": "Error al cargar el resumen de pago: {message}",
       "invalid_amount": "Ingresa un monto válido mayor a cero.",
       "pay_failed": "Error al registrar el pago: {message}"
+    }
+  },
+  "reports": {
+    "title": "Reportes",
+    "presets": {
+      "today": "Hoy",
+      "last7": "Últimos 7 días",
+      "month": "Este mes",
+      "custom": "Personalizado"
+    },
+    "from": "Desde",
+    "to": "Hasta",
+    "summary": {
+      "total_sales": "Ventas totales",
+      "orders": "Órdenes",
+      "average_ticket": "Ticket promedio",
+      "payments": "Pagos"
+    },
+    "top_products": {
+      "title": "Productos más vendidos",
+      "product": "Producto",
+      "quantity": "Cant.",
+      "revenue": "Ingresos",
+      "empty": "Sin ventas en este período."
+    },
+    "sales_by_day": {
+      "title": "Ventas por día",
+      "date": "Fecha",
+      "orders": "Órdenes",
+      "total": "Total",
+      "empty": "Sin ventas en este período."
     }
   }
 }
