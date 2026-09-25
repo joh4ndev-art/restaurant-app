@@ -2,6 +2,8 @@ import { subscribe, setState, getState } from "../state/store.js";
 import { t, onLocaleChange } from "../i18n/index.js";
 import { ordersApi } from "../api/ipc.js";
 import { openOrderDetailModal } from "../components/order_detail_modal.js";
+import { openPaymentModal } from "../components/payment_modal.js";
+import { registerViewHook } from "../router.js";
 
 // Statuses considered "active" for this view.
 const ACTIVE_STATUSES = ["open", "sent_to_kitchen", "served"];
@@ -38,6 +40,9 @@ async function handleOrder(order) {
       alert(t("orders.errors.cancel_failed", { message: res.error.message }));
       return;
     }
+  } else if (action === "pay") {
+    const paid = await openPaymentModal(order.id);
+    if (paid !== "paid") return;
   }
 
   await loadOrders();
@@ -133,6 +138,9 @@ function render(state) {
 export function mountOrdersView() {
   subscribe(render);
   onLocaleChange(() => render(getState()));
+
+  registerViewHook("orders", loadOrders);
+
   render(getState());
   loadOrders();
 }

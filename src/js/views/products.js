@@ -2,6 +2,7 @@ import { subscribe, setState, getState } from "../state/store.js";
 import { t, onLocaleChange } from "../i18n/index.js";
 import { categoriesApi, productsApi } from "../api/ipc.js";
 import { openFormModal } from "../components/modal.js";
+import { registerViewHook } from "../router.js";
 
 // ---------- Helpers ----------
 
@@ -249,13 +250,10 @@ export function mountProductsView() {
   subscribe(render);
   onLocaleChange(() => render(getState()));
 
-  document
-    .getElementById("add-product-btn")
-    ?.addEventListener("click", addProduct);
+  document.getElementById("add-product-btn")?.addEventListener("click", addProduct);
+  document.getElementById("add-category-btn")?.addEventListener("click", addCategory);
 
-  document
-    .getElementById("add-category-btn")
-    ?.addEventListener("click", addCategory);
+  registerViewHook("products", loadAll);
 
   render(getState());
   loadAll();

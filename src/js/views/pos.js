@@ -12,6 +12,7 @@ import {
 } from "../state/store.js";
 import { t, onLocaleChange } from "../i18n/index.js";
 import { categoriesApi, productsApi, ordersApi, tablesApi } from "../api/ipc.js";
+import { registerViewHook } from "../router.js";
 
 // ---------- Helpers ----------
 
@@ -289,6 +290,9 @@ function render(state) {
 export function mountPosView() {
   subscribe(render);
   onLocaleChange(() => render(getState()));
+
+  registerViewHook("pos", loadAll);
+
   render(getState());
   loadAll();
 }

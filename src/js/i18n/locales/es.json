@@ -35,7 +35,8 @@
     },
     "actions": {
       "mark_served": "Marcar como servida",
-      "cancel": "Cancelar orden"
+      "cancel": "Cancelar orden",
+      "pay": "Cobrar"
     },
     "confirm_cancel": "¿Cancelar la orden #{id}? La mesa quedará libre.",
     "errors": {
@@ -128,6 +129,29 @@
     "language": {
       "label": "Idioma",
       "description": "Elige el idioma de la aplicación."
+    }
+  },
+  "payments": {
+    "title": "Cobro de la orden #{id}",
+    "total": "Total",
+    "paid": "Pagado",
+    "remaining": "Pendiente",
+    "list_title": "Pagos",
+    "no_payments": "Aún no hay pagos registrados.",
+    "new_payment": "Nuevo pago",
+    "amount": "Monto",
+    "change": "Cambio: {amount}",
+    "add_payment": "Registrar pago",
+    "close": "Cerrar",
+    "methods": {
+      "cash": "Efectivo",
+      "card": "Tarjeta",
+      "other": "Otro"
+    },
+    "errors": {
+      "load_failed": "Error al cargar el resumen de pago: {message}",
+      "invalid_amount": "Ingresa un monto válido mayor a cero.",
+      "pay_failed": "Error al registrar el pago: {message}"
     }
   }
 }

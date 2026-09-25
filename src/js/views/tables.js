@@ -3,6 +3,8 @@ import { t, onLocaleChange } from "../i18n/index.js";
 import { tablesApi } from "../api/ipc.js";
 import { ordersApi } from "../api/ipc.js";
 import { openOrderDetailModal } from "../components/order_detail_modal.js";
+import { openPaymentModal } from "../components/payment_modal.js";
+import { registerViewHook } from "../router.js";
 
 // Status cycle when clicking a table.
 const STATUS_CYCLE = {
@@ -58,13 +60,17 @@ async function handleTableClick(table) {
     }
 
     if (res.data) {
-      const action = await openOrderDetailModal(res.data);
+      const order = res.data;
+      const action = await openOrderDetailModal(order);
       if (!action) return;
 
       if (action === "served") {
-        await ordersApi.markServed(res.data.id);
+        await ordersApi.markServed(order.id);
       } else if (action === "cancelled") {
-        await ordersApi.cancel(res.data.id);
+        await ordersApi.cancel(order.id);
+      } else if (action === "pay") {
+        const paid = await openPaymentModal(order.id);
+        if (paid !== "paid") return;
       }
       await loadTables();
       return;
@@ -167,6 +173,8 @@ export function mountTablesView() {
   document
     .getElementById("add-table-btn")
     ?.addEventListener("click", createTable);
+
+  registerViewHook("tables", loadTables);
 
   render(getState());
   loadTables();

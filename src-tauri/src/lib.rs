@@ -52,6 +52,8 @@ pub fn run() {
             commands::orders::get_active_order_for_table,
             commands::orders::mark_order_served,
             commands::orders::list_orders_by_status,
+            commands::payments::pay_order,
+            commands::payments::get_payment_summary,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

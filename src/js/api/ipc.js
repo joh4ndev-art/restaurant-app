@@ -53,3 +53,9 @@ export const ordersApi = {
   markServed: (id) => call("mark_order_served", { id }),
   listByStatuses: (statuses) => call("list_orders_by_status", { statuses }),
 };
+
+
+export const paymentsApi = {
+  pay: (input) => call("pay_order", { input }),
+  summary: (orderId) => call("get_payment_summary", { order_id: orderId }),
+};

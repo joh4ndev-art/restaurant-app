@@ -35,7 +35,8 @@
     },
     "actions": {
       "mark_served": "Mark as served",
-      "cancel": "Cancel order"
+      "cancel": "Cancel order",
+      "pay": "Pay"
     },
     "confirm_cancel": "Cancel order #{id}? The table will be freed.",
     "errors": {
@@ -128,6 +129,29 @@
     "language": {
       "label": "Language",
       "description": "Choose the language for the application."
+    }
+  },
+  "payments": {
+    "title": "Payment for order #{id}",
+    "total": "Total",
+    "paid": "Paid",
+    "remaining": "Remaining",
+    "list_title": "Payments",
+    "no_payments": "No payments yet.",
+    "new_payment": "New payment",
+    "amount": "Amount",
+    "change": "Change: {amount}",
+    "add_payment": "Add payment",
+    "close": "Close",
+    "methods": {
+      "cash": "Cash",
+      "card": "Card",
+      "other": "Other"
+    },
+    "errors": {
+      "load_failed": "Error loading payment summary: {message}",
+      "invalid_amount": "Enter a valid amount greater than zero.",
+      "pay_failed": "Error registering payment: {message}"
     }
   }
 }

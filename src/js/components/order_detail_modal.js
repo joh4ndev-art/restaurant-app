@@ -92,6 +92,15 @@ export function openOrderDetailModal(order) {
       actions.appendChild(servedBtn);
     }
 
+    if (order.status === "served") {
+      const payBtn = document.createElement("button");
+      payBtn.type = "button";
+      payBtn.className = "btn btn-primary";
+      payBtn.textContent = t("orders.actions.pay");
+      payBtn.addEventListener("click", () => close("pay"));
+      actions.appendChild(payBtn);
+    }
+
     if (order.status === "open" || order.status === "sent_to_kitchen") {
       const cancelBtn = document.createElement("button");
       cancelBtn.type = "button";
