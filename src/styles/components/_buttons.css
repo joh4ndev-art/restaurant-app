@@ -1,0 +1,38 @@
+/* Base button + variants. */
+
+.btn {
+  background: var(--bg-card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.btn:hover {
+  background: var(--bg-card-hover);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #ffffff;
+  border: none;
+}
+
+.btn-primary:hover {
+  background: #3a8eef;
+}
+
+.btn-danger {
+  background: transparent;
+  color: var(--status-occupied);
+  border: 1px solid var(--status-occupied);
+}
+
+.btn-danger:hover {
+  background: var(--status-occupied);
+  color: #ffffff;
+}

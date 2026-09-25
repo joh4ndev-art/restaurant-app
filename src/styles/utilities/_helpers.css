@@ -1,0 +1,10 @@
+/* Small utilities that are reused everywhere. */
+
+.hidden {
+  display: none !important;
+}
+
+.view-actions {
+  display: flex;
+  gap: 0.5rem;
+}

@@ -1,0 +1,77 @@
+/* Tables view. */
+
+.tables-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.table-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background: var(--bg-card);
+  color: var(--text);
+  text-align: left;
+  font-family: inherit;
+  font-size: 1rem;
+  min-height: 120px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.table-card:hover {
+  background: var(--bg-card-hover);
+}
+
+.table-card.status-free     { border-color: var(--status-free); }
+.table-card.status-occupied { border-color: var(--status-occupied); }
+.table-card.status-reserved { border-color: var(--status-reserved); }
+.table-card.status-cleaning { border-color: var(--status-cleaning); }
+
+.table-name {
+  font-weight: 600;
+  font-size: 1.05rem;
+}
+
+.table-meta {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.table-delete {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.table-delete:hover {
+  background: var(--status-occupied);
+  color: #ffffff;
+}
+
+.table-hint {
+  position: absolute;
+  bottom: 6px;
+  left: 8px;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-style: italic;
+}

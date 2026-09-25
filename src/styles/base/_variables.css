@@ -1,0 +1,17 @@
+/* Design tokens. Change these to reskin the entire app.
+   Everything else in the app references these via var(--name). */
+
+:root {
+  --bg: #1a1a1a;
+  --bg-card: #262626;
+  --bg-card-hover: #303030;
+  --text: #eaeaea;
+  --text-muted: #9a9a9a;
+  --border: #333333;
+  --accent: #4a9eff;
+
+  --status-free: #2d7a3e;
+  --status-occupied: #b85450;
+  --status-reserved: #b58d1e;
+  --status-cleaning: #4a6fa5;
+}
