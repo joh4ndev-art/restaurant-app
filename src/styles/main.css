@@ -8,6 +8,7 @@
 @import "./components/_forms.css";
 @import "./components/_modal.css";
 @import "./components/_settings.css";
+@import "./components/_login.css";
 
 @import "./views/_tables.css";
 @import "./views/_products.css";
@@ -16,3 +17,5 @@
 @import "./views/_payments.css";
 @import "./views/_kitchen.css";
 @import "./views/_reports.css";
+@import "./views/_users.css";
+

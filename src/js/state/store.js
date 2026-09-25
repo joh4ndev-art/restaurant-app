@@ -14,12 +14,27 @@ let state = {
   locale: "en",
   currentView: "tables",
 
-  // new for POS
+  // POS
   pos: {
     selectedTableId: null,
-    selectedCategoryId: null, // null = "all"
-    cart: [],                 // [{ productId, name, priceCents, quantity, notes }]
+    selectedCategoryId: null,
+    cart: [],
   },
+
+  // Kitchen, Orders, Reports
+  orders: [],
+  kitchenOrders: [],
+  kitchenLoading: false,
+  reports: null,
+  reportsLoading: false,
+  reportsRange: null,
+
+  // NEW: session and users
+  session: {
+    user: null,         // User | null
+    isFreeMode: false,  // true when no users exist
+  },
+  users: [],
 };
 
 export function getState() {

@@ -1,0 +1,78 @@
+/* Users management (inside Settings). */
+
+.settings-users {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 720px;
+}
+
+.settings-users-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.settings-users-empty {
+  padding: 1rem;
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+  background: var(--bg-card);
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+}
+
+.settings-users-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.settings-users-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.settings-users-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.settings-users-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.settings-users-badge {
+  font-size: 0.7rem;
+  padding: 0.1rem 0.4rem;
+  background: rgba(184, 84, 80, 0.2);
+  color: var(--status-occupied);
+  border-radius: 999px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.settings-users-role {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.settings-users-actions {
+  display: flex;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}

@@ -5,6 +5,7 @@ pub mod product_repo;
 pub mod reports_repo;
 pub mod settings_repo;
 pub mod table_repo;
+pub mod user_repo;
 
 pub use category_repo::CategoryRepository;
 pub use order_repo::OrderRepository;
@@ -13,3 +14,4 @@ pub use product_repo::ProductRepository;
 pub use reports_repo::ReportsRepository;
 pub use settings_repo::SettingsRepository;
 pub use table_repo::TableRepository;
+pub use user_repo::UserRepository;

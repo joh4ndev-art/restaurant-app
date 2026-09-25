@@ -97,10 +97,6 @@
       "invalid_price": "Price must be a positive number."
     }
   },
-  "common": {
-    "loading": "Loading...",
-    "error": "Error"
-  },
   "tables": {
     "title": "Tables",
     "add_button": "+ Add table",
@@ -131,6 +127,43 @@
     "language": {
       "label": "Language",
       "description": "Choose the language for the application."
+    },
+    "form": {
+      "cancel": "Cancel"
+    },
+    "users": {
+      "title": "Users",
+      "add": "+ Add user",
+      "empty": "No users yet.",
+      "edit": "Edit",
+      "change_pin": "Change PIN",
+      "delete": "Delete",
+      "inactive": "Inactive",
+      "pin_changed": "PIN updated.",
+      "confirm_delete": "Delete user \"{username}\"?",
+      "roles": {
+        "admin": "Admin",
+        "waiter": "Waiter",
+        "kitchen": "Kitchen"
+      },
+      "form": {
+        "title_create": "New user",
+        "title_edit": "Edit user",
+        "title_change_pin": "Change PIN for {username}",
+        "username": "Username",
+        "pin": "PIN (4-8 digits)",
+        "new_pin": "New PIN (4-8 digits)",
+        "role": "Role",
+        "active": "Active",
+        "save": "Save"
+      },
+      "errors": {
+        "load_failed": "Error loading users: {message}",
+        "create_failed": "Error creating user: {message}",
+        "update_failed": "Error updating user: {message}",
+        "delete_failed": "Error deleting user: {message}",
+        "pin_failed": "Error changing PIN: {message}"
+      }
     }
   },
   "payments": {
@@ -202,5 +235,20 @@
     "errors": {
       "serve_failed": "Error marking as served: {message}"
     }
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "login": {
+    "title": "Restaurant App",
+    "subtitle": "Sign in to continue",
+    "username": "Username",
+    "pin": "PIN",
+    "submit": "Sign in",
+    "invalid": "Invalid username or PIN.",
+    "confirm_logout": "Log out of the current session?"
   }
 }

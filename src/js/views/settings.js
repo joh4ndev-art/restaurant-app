@@ -1,20 +1,20 @@
 import { t, getLocale, getSupportedLocales, setLocale } from "../i18n/index.js";
-import { setState } from "../state/store.js";
+import { setState, getState } from "../state/store.js";
+import { usersApi } from "../api/ipc.js";
+import { isAdmin, currentRole } from "../auth.js";
+import { openFormModal } from "../components/modal.js";
 
-const LOCALE_LABELS = {
-  en: "English",
-  es: "Español",
+const LOCALE_LABELS = { en: "English", es: "Español" };
+
+const ROLE_LABELS = {
+  admin: "Admin",
+  waiter: "Waiter",
+  kitchen: "Kitchen",
 };
 
-function render(root) {
-  root.innerHTML = "";
+// ---------- Language section ----------
 
-  const title = document.createElement("h2");
-  title.textContent = t("settings.title");
-
-  const list = document.createElement("div");
-  list.className = "settings-list";
-
+function renderLanguageSection() {
   const item = document.createElement("div");
   item.className = "setting-item";
 
@@ -32,8 +32,6 @@ function render(root) {
 
   const select = document.createElement("select");
   select.className = "setting-select";
-  select.id = "locale-select";
-
   for (const loc of getSupportedLocales()) {
     const opt = document.createElement("option");
     opt.value = loc;
@@ -44,20 +42,259 @@ function render(root) {
 
   select.addEventListener("change", async () => {
     await setLocale(select.value);
-    // Notify the rest of the UI so it re-renders with the new locale.
     setState({ locale: select.value });
-    render(root);
+    renderRoot();
   });
 
   item.append(info, select);
-  list.appendChild(item);
-
-  root.append(title, list);
+  return item;
 }
 
-export function mountSettingsView() {
+// ---------- Users section ----------
+
+async function loadUsers() {
+  const res = await usersApi.list();
+  if (!res.ok) {
+    alert(t("settings.users.errors.load_failed", { message: res.error.message }));
+    return;
+  }
+  setState({ users: res.data });
+  renderRoot();
+}
+
+async function addUser() {
+  const data = await openFormModal({
+    title: t("settings.users.form.title_create"),
+    fields: [
+      { name: "username", label: t("settings.users.form.username"), type: "text", required: true },
+      { name: "pin", label: t("settings.users.form.pin"), type: "text", required: true },
+      {
+        name: "role",
+        label: t("settings.users.form.role"),
+        type: "select",
+        options: [
+          { value: "admin",   label: t("settings.users.roles.admin") },
+          { value: "waiter",  label: t("settings.users.roles.waiter") },
+          { value: "kitchen", label: t("settings.users.roles.kitchen") },
+        ],
+      },
+    ],
+    submitLabel: t("settings.users.form.save"),
+    cancelLabel: t("settings.form.cancel"),
+  });
+  if (!data) return;
+
+  const res = await usersApi.create({
+    username: data.username,
+    pin: data.pin,
+    role: data.role,
+  });
+  if (!res.ok) {
+    alert(t("settings.users.errors.create_failed", { message: res.error.message }));
+    return;
+  }
+  await loadUsers();
+}
+
+async function editUser(user) {
+  const data = await openFormModal({
+    title: t("settings.users.form.title_edit"),
+    fields: [
+      { name: "username", label: t("settings.users.form.username"), type: "text", required: true, value: user.username },
+      {
+        name: "role",
+        label: t("settings.users.form.role"),
+        type: "select",
+        options: [
+          { value: "admin",   label: t("settings.users.roles.admin") },
+          { value: "waiter",  label: t("settings.users.roles.waiter") },
+          { value: "kitchen", label: t("settings.users.roles.kitchen") },
+        ],
+        value: user.role,
+      },
+      {
+        name: "active",
+        label: t("settings.users.form.active"),
+        type: "select",
+        options: [
+          { value: "true",  label: t("common.yes") },
+          { value: "false", label: t("common.no") },
+        ],
+        value: user.active ? "true" : "false",
+      },
+    ],
+    submitLabel: t("settings.users.form.save"),
+    cancelLabel: t("settings.form.cancel"),
+  });
+  if (!data) return;
+
+  const res = await usersApi.update({
+    id: user.id,
+    username: data.username,
+    role: data.role,
+    active: data.active === "true",
+  });
+  if (!res.ok) {
+    alert(t("settings.users.errors.update_failed", { message: res.error.message }));
+    return;
+  }
+  await loadUsers();
+}
+
+async function changePin(user) {
+  const data = await openFormModal({
+    title: t("settings.users.form.title_change_pin", { username: user.username }),
+    fields: [
+      { name: "pin", label: t("settings.users.form.new_pin"), type: "text", required: true },
+    ],
+    submitLabel: t("settings.users.form.save"),
+    cancelLabel: t("settings.form.cancel"),
+  });
+  if (!data) return;
+
+  const res = await usersApi.changePin({ id: user.id, pin: data.pin });
+  if (!res.ok) {
+    alert(t("settings.users.errors.pin_failed", { message: res.error.message }));
+    return;
+  }
+  alert(t("settings.users.pin_changed"));
+}
+
+async function deleteUser(user) {
+  if (!confirm(t("settings.users.confirm_delete", { username: user.username }))) return;
+
+  const res = await usersApi.remove(user.id);
+  if (!res.ok) {
+    alert(t("settings.users.errors.delete_failed", { message: res.error.message }));
+    return;
+  }
+  await loadUsers();
+}
+
+function renderUsersSection() {
+  const state = getState();
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "settings-users";
+
+  const header = document.createElement("div");
+  header.className = "settings-users-header";
+
+  const title = document.createElement("div");
+  title.className = "setting-label";
+  title.textContent = t("settings.users.title");
+
+  const addBtn = document.createElement("button");
+  addBtn.type = "button";
+  addBtn.className = "btn btn-primary";
+  addBtn.textContent = t("settings.users.add");
+  addBtn.addEventListener("click", addUser);
+
+  header.append(title, addBtn);
+  wrapper.appendChild(header);
+
+  if (state.users.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "settings-users-empty";
+    empty.textContent = t("settings.users.empty");
+    wrapper.appendChild(empty);
+    return wrapper;
+  }
+
+  const table = document.createElement("div");
+  table.className = "settings-users-table";
+
+  for (const u of state.users) {
+    const row = document.createElement("div");
+    row.className = "settings-users-row";
+
+    const info = document.createElement("div");
+    info.className = "settings-users-info";
+
+    const name = document.createElement("div");
+    name.className = "settings-users-name";
+    name.textContent = u.username;
+    if (!u.active) {
+      const badge = document.createElement("span");
+      badge.className = "settings-users-badge";
+      badge.textContent = t("settings.users.inactive");
+      name.appendChild(badge);
+    }
+
+    const role = document.createElement("div");
+    role.className = "settings-users-role";
+    role.textContent = t(`settings.users.roles.${u.role}`);
+
+    info.append(name, role);
+
+    const actions = document.createElement("div");
+    actions.className = "settings-users-actions";
+
+    const editBtn = document.createElement("button");
+    editBtn.type = "button";
+    editBtn.className = "btn";
+    editBtn.textContent = t("settings.users.edit");
+    editBtn.addEventListener("click", () => editUser(u));
+
+    const pinBtn = document.createElement("button");
+    pinBtn.type = "button";
+    pinBtn.className = "btn";
+    pinBtn.textContent = t("settings.users.change_pin");
+    pinBtn.addEventListener("click", () => changePin(u));
+
+    const delBtn = document.createElement("button");
+    delBtn.type = "button";
+    delBtn.className = "btn btn-danger";
+    delBtn.textContent = t("settings.users.delete");
+    delBtn.addEventListener("click", () => deleteUser(u));
+
+    actions.append(editBtn, pinBtn, delBtn);
+    row.append(info, actions);
+    table.appendChild(row);
+  }
+
+  wrapper.appendChild(table);
+  return wrapper;
+}
+
+// ---------- Root renderer ----------
+
+function renderRoot() {
   const root = document.getElementById("view-settings");
   if (!root) return;
 
-  render(root);
+  root.innerHTML = "";
+
+  const title = document.createElement("h2");
+  title.textContent = t("settings.title");
+  title.style.marginTop = "0";
+
+  const list = document.createElement("div");
+  list.className = "settings-list";
+  list.appendChild(renderLanguageSection());
+
+  root.append(title, list);
+
+  if (isAdmin()) {
+    const usersHeader = document.createElement("h2");
+    usersHeader.textContent = t("settings.users.title");
+    usersHeader.style.marginTop = "2rem";
+
+    root.append(usersHeader, renderUsersSection());
+  }
+}
+
+// ---------- Entry point ----------
+
+export function mountSettingsView() {
+  renderRoot();
+  if (isAdmin()) {
+    loadUsers();
+  }
+}
+
+/// Force a reload when the view becomes active.
+export function reloadSettingsView() {
+  renderRoot();
+  if (isAdmin()) loadUsers();
 }

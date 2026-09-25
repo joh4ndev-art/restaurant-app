@@ -64,3 +64,13 @@ export const paymentsApi = {
 export const reportsApi = {
   generate: (input) => call("generate_report", { input }),
 };
+
+export const usersApi = {
+  hasUsers: () => call("has_users"),
+  login: (input) => call("login", { input }),
+  list: () => call("list_users"),
+  create: (input) => call("create_user", { input }),
+  update: (input) => call("update_user", { input }),
+  changePin: (input) => call("change_user_pin", { input }),
+  remove: (id) => call("delete_user", { id }),
+};

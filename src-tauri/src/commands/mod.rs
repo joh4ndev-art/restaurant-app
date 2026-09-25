@@ -5,3 +5,4 @@ pub mod products;
 pub mod reports;
 pub mod settings;
 pub mod tables;
+pub mod users;

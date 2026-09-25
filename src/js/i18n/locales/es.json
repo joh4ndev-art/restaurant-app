@@ -97,10 +97,6 @@
       "invalid_price": "El precio debe ser un número positivo."
     }
   },
-  "common": {
-    "loading": "Cargando...",
-    "error": "Error"
-  },
   "tables": {
     "title": "Mesas",
     "add_button": "+ Agregar mesa",
@@ -131,6 +127,43 @@
     "language": {
       "label": "Idioma",
       "description": "Elige el idioma de la aplicación."
+    },
+    "form": {
+      "cancel": "Cancelar"
+    },
+    "users": {
+      "title": "Usuarios",
+      "add": "+ Agregar usuario",
+      "empty": "Aún no hay usuarios.",
+      "edit": "Editar",
+      "change_pin": "Cambiar PIN",
+      "delete": "Eliminar",
+      "inactive": "Inactivo",
+      "pin_changed": "PIN actualizado.",
+      "confirm_delete": "¿Eliminar al usuario \"{username}\"?",
+      "roles": {
+        "admin": "Administrador",
+        "waiter": "Mesero",
+        "kitchen": "Cocina"
+      },
+      "form": {
+        "title_create": "Nuevo usuario",
+        "title_edit": "Editar usuario",
+        "title_change_pin": "Cambiar PIN de {username}",
+        "username": "Usuario",
+        "pin": "PIN (4-8 dígitos)",
+        "new_pin": "Nuevo PIN (4-8 dígitos)",
+        "role": "Rol",
+        "active": "Activo",
+        "save": "Guardar"
+      },
+      "errors": {
+        "load_failed": "Error al cargar usuarios: {message}",
+        "create_failed": "Error al crear usuario: {message}",
+        "update_failed": "Error al actualizar usuario: {message}",
+        "delete_failed": "Error al eliminar usuario: {message}",
+        "pin_failed": "Error al cambiar el PIN: {message}"
+      }
     }
   },
   "payments": {
@@ -202,5 +235,20 @@
     "errors": {
       "serve_failed": "Error al marcar como servida: {message}"
     }
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "login": {
+    "title": "Restaurante",
+    "subtitle": "Inicia sesión para continuar",
+    "username": "Usuario",
+    "pin": "PIN",
+    "submit": "Entrar",
+    "invalid": "Usuario o PIN incorrectos.",
+    "confirm_logout": "¿Cerrar la sesión actual?"
   }
 }
