@@ -1,6 +1,7 @@
 pub mod categories;
 pub mod orders;
 pub mod payments;
+pub mod printing;
 pub mod products;
 pub mod reports;
 pub mod settings;

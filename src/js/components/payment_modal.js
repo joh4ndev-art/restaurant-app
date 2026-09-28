@@ -1,5 +1,5 @@
 import { t } from "../i18n/index.js";
-import { paymentsApi } from "../api/ipc.js";
+import { paymentsApi, printingApi } from "../api/ipc.js";
 
 const METHODS = ["cash", "card", "other"];
 
@@ -92,12 +92,28 @@ export function openPaymentModal(orderId) {
       summary = res.data;
 
       if (summary.remaining_cents <= 0) {
+        // Order fully paid. Offer to print the receipt before closing.
+        await offerPrintReceipt();
         close("paid");
         return;
       }
 
       amountStr = (summary.remaining_cents / 100).toFixed(2);
       render();
+    }
+
+    async function offerPrintReceipt() {
+      if (!confirm(t("printing.print_receipt_prompt"))) return;
+
+      const printRes = await printingApi.printReceipt(orderId);
+      if (!printRes.ok) {
+        alert(t("printing.errors.receipt_failed", { message: printRes.error.message }));
+        return;
+      }
+      const open = confirm(t("printing.receipt_saved", { path: printRes.data.path }));
+      if (open) {
+        await printingApi.openFile(printRes.data.path);
+      }
     }
 
     // ---------- Rendering ----------

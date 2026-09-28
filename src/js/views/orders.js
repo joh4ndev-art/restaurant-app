@@ -5,6 +5,7 @@ import { openOrderDetailModal } from "../components/order_detail_modal.js";
 import { openPaymentModal } from "../components/payment_modal.js";
 import { registerViewHook } from "../router.js";
 import { onOrdersChanged } from "../events.js";
+import { printingApi } from "../api/ipc.js";
 
 // Statuses considered "active" for this view.
 const ACTIVE_STATUSES = ["open", "sent_to_kitchen", "served"];
@@ -22,6 +23,7 @@ async function loadOrders() {
 
   setState({ orders: res.data, productsLoading: false });
 }
+
 
 // ---------- Actions ----------
 

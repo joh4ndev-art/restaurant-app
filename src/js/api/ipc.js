@@ -74,3 +74,14 @@ export const usersApi = {
   changePin: (input) => call("change_user_pin", { input }),
   remove: (id) => call("delete_user", { id }),
 };
+
+
+export const printingApi = {
+  getRestaurantInfo: () => call("get_restaurant_info"),
+  saveRestaurantInfo: (info) => call("save_restaurant_info", { info }),
+  getReceiptFolder: () => call("get_receipt_folder"),
+  setReceiptFolder: (path) => call("set_receipt_folder", { path }),
+  printReceipt: (orderId) => call("print_receipt", { order_id: orderId }),
+  printKitchenTicket: (orderId) => call("print_kitchen_ticket", { order_id: orderId }),
+  openFile: (path) => call("open_file", { path }),
+};

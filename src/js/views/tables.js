@@ -51,6 +51,7 @@ async function createTable() {
   await loadTables();
 }
 
+
 async function handleTableClick(table) {
   // If the table has an active order, open its detail modal.
   if (table.status === "occupied") {
@@ -86,18 +87,6 @@ async function handleTableClick(table) {
     alert(t("tables.errors.update_failed", { message: result.error.message }));
     return;
   }
-  await loadTables();
-}
-
-async function deleteTable(table) {
-  if (!confirm(t("tables.confirm_delete", { name: table.name }))) return;
-
-  const result = await tablesApi.remove(table.id);
-  if (!result.ok) {
-    alert(t("tables.errors.delete_failed", { message: result.error.message }));
-    return;
-  }
-
   await loadTables();
 }
 

@@ -62,6 +62,13 @@ pub fn run() {
             commands::users::update_user,
             commands::users::change_user_pin,
             commands::users::delete_user,
+            commands::printing::get_restaurant_info,
+            commands::printing::save_restaurant_info,
+            commands::printing::get_receipt_folder,
+            commands::printing::set_receipt_folder,
+            commands::printing::print_receipt,
+            commands::printing::print_kitchen_ticket,
+            commands::printing::open_file,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

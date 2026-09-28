@@ -110,10 +110,22 @@
   margin-top: 0.15rem;
 }
 
-.kds-serve-btn {
+.kds-actions {
+  display: flex;
+  gap: 0.5rem;
   margin-top: auto;
+}
+
+.kds-actions .btn {
+  flex: 1;
   padding: 0.65rem;
   font-size: 0.95rem;
+}
+
+.kds-print-btn {
+  flex: 0 0 auto;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
 
 .kds-empty {

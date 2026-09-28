@@ -1,18 +1,12 @@
 import { t, getLocale, getSupportedLocales, setLocale } from "../i18n/index.js";
 import { setState, getState } from "../state/store.js";
-import { usersApi } from "../api/ipc.js";
+import { usersApi, printingApi } from "../api/ipc.js";
 import { isAdmin, currentRole } from "../auth.js";
 import { openFormModal } from "../components/modal.js";
 
 const LOCALE_LABELS = { en: "English", es: "Español" };
 
-const ROLE_LABELS = {
-  admin: "Admin",
-  waiter: "Waiter",
-  kitchen: "Kitchen",
-};
-
-// ---------- Language section ----------
+// ---------- Language ----------
 
 function renderLanguageSection() {
   const item = document.createElement("div");
@@ -50,7 +44,157 @@ function renderLanguageSection() {
   return item;
 }
 
-// ---------- Users section ----------
+// ---------- Restaurant info ----------
+
+async function loadRestaurant() {
+  const res = await printingApi.getRestaurantInfo();
+  if (!res.ok) return;
+  setState({ restaurantInfo: res.data });
+  renderRoot();
+}
+
+async function editRestaurant() {
+  const state = getState();
+  const current = state.restaurantInfo ?? { name: "Restaurant", address: null, phone: null, footer_message: null };
+
+  const data = await openFormModal({
+    title: t("settings.restaurant.form.title"),
+    fields: [
+      { name: "name", label: t("settings.restaurant.form.name"), type: "text", required: true, value: current.name },
+      { name: "address", label: t("settings.restaurant.form.address"), type: "text", value: current.address ?? "" },
+      { name: "phone", label: t("settings.restaurant.form.phone"), type: "text", value: current.phone ?? "" },
+      { name: "footer_message", label: t("settings.restaurant.form.footer"), type: "textarea", value: current.footer_message ?? "" },
+    ],
+    submitLabel: t("settings.users.form.save"),
+    cancelLabel: t("settings.form.cancel"),
+  });
+  if (!data) return;
+
+  const res = await printingApi.saveRestaurantInfo({
+    name: data.name,
+    address: data.address || null,
+    phone: data.phone || null,
+    footer_message: data.footer_message || null,
+  });
+  if (!res.ok) {
+    alert(t("settings.restaurant.errors.save_failed", { message: res.error.message }));
+    return;
+  }
+  await loadRestaurant();
+}
+
+function renderRestaurantSection() {
+  const state = getState();
+  const info = state.restaurantInfo;
+
+  const item = document.createElement("div");
+  item.className = "setting-item";
+
+  const infoBlock = document.createElement("div");
+
+  const label = document.createElement("div");
+  label.className = "setting-label";
+  label.textContent = t("settings.restaurant.label");
+
+  const desc = document.createElement("div");
+  desc.className = "setting-desc";
+  desc.textContent = info
+    ? `${info.name}${info.address ? " · " + info.address : ""}`
+    : t("settings.restaurant.empty");
+
+  infoBlock.append(label, desc);
+
+  const editBtn = document.createElement("button");
+  editBtn.type = "button";
+  editBtn.className = "btn";
+  editBtn.textContent = t("settings.restaurant.edit");
+  editBtn.addEventListener("click", editRestaurant);
+
+  item.append(infoBlock, editBtn);
+  return item;
+}
+
+// ---------- Receipt folder ----------
+
+async function loadReceiptFolder() {
+  const res = await printingApi.getReceiptFolder();
+  if (!res.ok) return;
+  setState({ receiptFolder: res.data });
+  renderRoot();
+}
+
+async function changeReceiptFolder() {
+  const state = getState();
+  const data = await openFormModal({
+    title: t("settings.printing.folder_form_title"),
+    fields: [
+      {
+        name: "path",
+        label: t("settings.printing.folder_path"),
+        type: "text",
+        required: true,
+        value: state.receiptFolder ?? "",
+      },
+    ],
+    submitLabel: t("settings.users.form.save"),
+    cancelLabel: t("settings.form.cancel"),
+  });
+  if (!data) return;
+
+  const res = await printingApi.setReceiptFolder(data.path.trim());
+  if (!res.ok) {
+    alert(t("settings.printing.errors.save_failed", { message: res.error.message }));
+    return;
+  }
+  await loadReceiptFolder();
+}
+
+async function openReceiptFolder() {
+  const state = getState();
+  if (!state.receiptFolder) return;
+  await printingApi.openFile(state.receiptFolder);
+}
+
+function renderPrintingSection() {
+  const state = getState();
+
+  const item = document.createElement("div");
+  item.className = "setting-item";
+
+  const info = document.createElement("div");
+
+  const label = document.createElement("div");
+  label.className = "setting-label";
+  label.textContent = t("settings.printing.label");
+
+  const desc = document.createElement("div");
+  desc.className = "setting-desc";
+  desc.textContent = state.receiptFolder || t("common.loading");
+
+  info.append(label, desc);
+
+  const buttons = document.createElement("div");
+  buttons.className = "setting-actions";
+
+  const openBtn = document.createElement("button");
+  openBtn.type = "button";
+  openBtn.className = "btn";
+  openBtn.textContent = t("settings.printing.open_folder");
+  openBtn.addEventListener("click", openReceiptFolder);
+
+  const changeBtn = document.createElement("button");
+  changeBtn.type = "button";
+  changeBtn.className = "btn";
+  changeBtn.textContent = t("settings.printing.change_folder");
+  changeBtn.addEventListener("click", changeReceiptFolder);
+
+  buttons.append(openBtn, changeBtn);
+
+  item.append(info, buttons);
+  return item;
+}
+
+// ---------- Users ----------
 
 async function loadUsers() {
   const res = await usersApi.list();
@@ -257,7 +401,7 @@ function renderUsersSection() {
   return wrapper;
 }
 
-// ---------- Root renderer ----------
+// ---------- Root ----------
 
 function renderRoot() {
   const root = document.getElementById("view-settings");
@@ -272,6 +416,8 @@ function renderRoot() {
   const list = document.createElement("div");
   list.className = "settings-list";
   list.appendChild(renderLanguageSection());
+  list.appendChild(renderRestaurantSection());
+  list.appendChild(renderPrintingSection());
 
   root.append(title, list);
 
@@ -288,13 +434,18 @@ function renderRoot() {
 
 export function mountSettingsView() {
   renderRoot();
+  loadRestaurant();
+  loadReceiptFolder();
   if (isAdmin()) {
     loadUsers();
   }
 }
 
-/// Force a reload when the view becomes active.
 export function reloadSettingsView() {
   renderRoot();
-  if (isAdmin()) loadUsers();
+  loadRestaurant();
+  loadReceiptFolder();
+  if (isAdmin()) {
+    loadUsers();
+  }
 }

@@ -38,7 +38,8 @@
     "actions": {
       "mark_served": "Marcar como servida",
       "cancel": "Cancelar orden",
-      "pay": "Cobrar"
+      "pay": "Cobrar",
+      "print_receipt": "Imprimir recibo"
     },
     "confirm_cancel": "¿Cancelar la orden #{id}? La mesa quedará libre.",
     "errors": {
@@ -164,6 +165,31 @@
         "delete_failed": "Error al eliminar usuario: {message}",
         "pin_failed": "Error al cambiar el PIN: {message}"
       }
+    },
+    "restaurant": {
+      "label": "Información del restaurante",
+      "empty": "Sin configurar.",
+      "edit": "Editar",
+      "form": {
+        "title": "Información del restaurante",
+        "name": "Nombre",
+        "address": "Dirección",
+        "phone": "Teléfono",
+        "footer": "Mensaje al pie (opcional)"
+      },
+      "errors": {
+        "save_failed": "Error al guardar: {message}"
+      }
+    },
+    "printing": {
+      "label": "Carpeta de recibos",
+      "open_folder": "Abrir carpeta",
+      "change_folder": "Cambiar carpeta",
+      "folder_form_title": "Cambiar carpeta de recibos",
+      "folder_path": "Ruta completa de la carpeta",
+      "errors": {
+        "save_failed": "Error al guardar carpeta: {message}"
+      }
     }
   },
   "payments": {
@@ -230,10 +256,12 @@
     "elapsed_minutes": "{count} min",
     "elapsed_hours": "{hours}h {minutes}m",
     "actions": {
-      "mark_served": "Marcar como servida"
+      "mark_served": "Marcar como servida",
+      "print": "Imprimir"
     },
     "errors": {
-      "serve_failed": "Error al marcar como servida: {message}"
+      "serve_failed": "Error al marcar como servida: {message}",
+      "print_failed": "Error al imprimir ticket: {message}"
     }
   },
   "common": {
@@ -250,5 +278,13 @@
     "submit": "Entrar",
     "invalid": "Usuario o PIN incorrectos.",
     "confirm_logout": "¿Cerrar la sesión actual?"
+  },
+  "printing": {
+    "receipt_saved": "Recibo guardado en:\n{path}\n\n¿Abrirlo?",
+    "ticket_saved": "Ticket de cocina guardado en:\n{path}\n\n¿Abrirlo?",
+    "errors": {
+      "receipt_failed": "Error al generar recibo: {message}"
+    },
+    "print_receipt_prompt": "Cuenta pagada. ¿Imprimir recibo ahora?"
   }
 }

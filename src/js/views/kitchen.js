@@ -3,6 +3,7 @@ import { t, onLocaleChange } from "../i18n/index.js";
 import { ordersApi } from "../api/ipc.js";
 import { registerViewHook } from "../router.js";
 import { onOrdersChanged } from "../events.js";
+import { printingApi } from "../api/ipc.js";
 
 // KDS shows only orders that are physically in the kitchen.
 const KDS_STATUSES = ["sent_to_kitchen"];
@@ -69,6 +70,20 @@ async function markServed(order) {
   // and our subscription will refresh the view.
 }
 
+async function printTicket(order) {
+  const res = await printingApi.printKitchenTicket(order.id);
+  if (!res.ok) {
+    alert(t("kitchen.errors.print_failed", { message: res.error.message }));
+    return;
+  }
+  const open = confirm(
+    t("printing.ticket_saved", { path: res.data.path })
+  );
+  if (open) {
+    await printingApi.openFile(res.data.path);
+  }
+}
+
 // ---------- Rendering ----------
 
 function orderCard(order) {
@@ -129,14 +144,25 @@ function orderCard(order) {
     list.appendChild(li);
   }
 
-  // Action
-  const action = document.createElement("button");
-  action.type = "button";
-  action.className = "btn btn-primary kds-serve-btn";
-  action.textContent = t("kitchen.actions.mark_served");
-  action.addEventListener("click", () => markServed(order));
+  // Actions row
+  const actionRow = document.createElement("div");
+  actionRow.className = "kds-actions";
 
-  card.append(header, table, list, action);
+  const printBtn = document.createElement("button");
+  printBtn.type = "button";
+  printBtn.className = "btn kds-print-btn";
+  printBtn.textContent = t("kitchen.actions.print");
+  printBtn.addEventListener("click", () => printTicket(order));
+
+  const serveBtn = document.createElement("button");
+  serveBtn.type = "button";
+  serveBtn.className = "btn btn-primary kds-serve-btn";
+  serveBtn.textContent = t("kitchen.actions.mark_served");
+  serveBtn.addEventListener("click", () => markServed(order));
+
+  actionRow.append(printBtn, serveBtn);
+
+  card.append(header, table, list, actionRow);
   return card;
 }
 

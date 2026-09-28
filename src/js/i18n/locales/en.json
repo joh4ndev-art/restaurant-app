@@ -38,7 +38,8 @@
     "actions": {
       "mark_served": "Mark as served",
       "cancel": "Cancel order",
-      "pay": "Pay"
+      "pay": "Pay",
+      "print_receipt": "Print receipt"
     },
     "confirm_cancel": "Cancel order #{id}? The table will be freed.",
     "errors": {
@@ -164,6 +165,31 @@
         "delete_failed": "Error deleting user: {message}",
         "pin_failed": "Error changing PIN: {message}"
       }
+    },
+    "restaurant": {
+      "label": "Restaurant information",
+      "empty": "Not configured yet.",
+      "edit": "Edit",
+      "form": {
+        "title": "Restaurant information",
+        "name": "Name",
+        "address": "Address",
+        "phone": "Phone",
+        "footer": "Footer message (optional)"
+      },
+      "errors": {
+        "save_failed": "Error saving: {message}"
+      }
+    },
+    "printing": {
+      "label": "Receipt folder",
+      "open_folder": "Open folder",
+      "change_folder": "Change folder",
+      "folder_form_title": "Change receipt folder",
+      "folder_path": "Full folder path",
+      "errors": {
+        "save_failed": "Error saving folder: {message}"
+      }
     }
   },
   "payments": {
@@ -230,7 +256,8 @@
     "elapsed_minutes": "{count} min",
     "elapsed_hours": "{hours}h {minutes}m",
     "actions": {
-      "mark_served": "Mark as served"
+      "mark_served": "Mark as served",
+      "print": "Print"
     },
     "errors": {
       "serve_failed": "Error marking as served: {message}"
@@ -250,5 +277,13 @@
     "submit": "Sign in",
     "invalid": "Invalid username or PIN.",
     "confirm_logout": "Log out of the current session?"
+  },
+  "printing": {
+    "receipt_saved": "Receipt saved to:\n{path}\n\nOpen it?",
+    "ticket_saved": "Kitchen ticket saved to:\n{path}\n\nOpen it?",
+    "errors": {
+      "receipt_failed": "Error generating receipt: {message}"
+    },
+    "print_receipt_prompt": "Order paid. Print receipt now?"
   }
 }
