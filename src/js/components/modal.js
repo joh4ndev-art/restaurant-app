@@ -34,12 +34,16 @@ export function openFormModal({
       wrapper.appendChild(label);
 
       let input;
+
       if (field.type === "select") {
         input = document.createElement("select");
-        for (const opt of field.options) {
+        for (const opt of field.options ?? []) {
           const option = document.createElement("option");
           option.value = opt.value;
           option.textContent = opt.label;
+          if (field.value !== undefined && String(field.value) === opt.value) {
+            option.selected = true;
+          }
           input.appendChild(option);
         }
       } else if (field.type === "textarea") {
@@ -50,20 +54,19 @@ export function openFormModal({
         input.type = field.type ?? "text";
         if (field.step) input.step = field.step;
         if (field.min !== undefined) input.min = field.min;
+        if (field.placeholder) input.placeholder = field.placeholder;
       }
 
       input.name = field.name;
       input.required = !!field.required;
-      if (field.value !== undefined && field.value !== null) {
+
+      if (field.value !== undefined && field.value !== null && field.type !== "select") {
         input.value = field.value;
-      } else {
-        input = document.createElement("input");
-        input.type = field.type ?? "text";
-        if (field.step) input.step = field.step;
-        if (field.min !== undefined) input.min = field.min;
-        if (field.placeholder) input.placeholder = field.placeholder;
       }
 
+      wrapper.appendChild(input);
+
+      // Hint appears below the input.
       if (field.hint) {
         const hint = document.createElement("small");
         hint.className = "modal-field-hint";
@@ -71,10 +74,7 @@ export function openFormModal({
         wrapper.appendChild(hint);
       }
 
-      
-
       inputs[field.name] = input;
-      wrapper.appendChild(input);
       form.appendChild(wrapper);
     }
 

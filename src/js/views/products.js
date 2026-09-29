@@ -124,6 +124,13 @@ async function addProduct() {
   });
   if (!data) return;
 
+  // Validate the category selection explicitly.
+  const categoryId = parseInt(data.category_id, 10);
+  if (!Number.isInteger(categoryId) || categoryId <= 0) {
+    alert(t("products.errors.category_required"));
+    return;
+  }
+
   const cents = parsePriceToCents(data.price);
   if (cents === null) {
     alert(t("products.errors.invalid_price"));
@@ -131,7 +138,7 @@ async function addProduct() {
   }
 
   const res = await productsApi.create({
-    category_id: parseInt(data.category_id, 10),
+    category_id: categoryId,
     name: data.name,
     description: data.description || null,
     price_cents: cents,
@@ -158,7 +165,7 @@ async function deleteProduct(product) {
 
 function productCard(product) {
   const card = document.createElement("div");
-  card.className = "product-card";
+  card.className = "product-card" + (product.active ? "" : " product-inactive");
 
   const name = document.createElement("div");
   name.className = "product-name";
@@ -168,6 +175,17 @@ function productCard(product) {
   price.className = "product-price";
   price.textContent = formatPrice(product.price_cents);
 
+  // Toggle active/inactive
+  const toggle = document.createElement("button");
+  toggle.type = "button";
+  toggle.className = "product-toggle";
+  toggle.textContent = product.active ? "●" : "○";
+  toggle.title = product.active
+    ? t("products.deactivate")
+    : t("products.activate");
+  toggle.addEventListener("click", () => toggleProductActive(product));
+
+  // Delete
   const del = document.createElement("button");
   del.type = "button";
   del.className = "product-delete";
@@ -175,8 +193,24 @@ function productCard(product) {
   del.title = t("products.delete_product");
   del.addEventListener("click", () => deleteProduct(product));
 
-  card.append(name, price, del);
+  card.append(name, price, toggle, del);
   return card;
+}
+
+async function toggleProductActive(product) {
+  const res = await productsApi.update({
+    id: product.id,
+    category_id: product.category_id,
+    name: product.name,
+    description: product.description,
+    price_cents: product.price_cents,
+    active: !product.active,
+  });
+  if (!res.ok) {
+    alert(t("products.errors.update_failed", { message: res.error.message }));
+    return;
+  }
+  await loadAll();
 }
 
 function render(state) {

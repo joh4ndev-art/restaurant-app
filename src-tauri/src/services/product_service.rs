@@ -19,6 +19,15 @@ impl ProductService {
         validate_name(&name)?;
         validate_price(input.price_cents)?;
 
+        if input.category_id <= 0 {
+        return Err(AppError::Validation(
+            "a valid category must be selected".into(),
+            ));
+        }
+
+        let category_repo = CategoryRepository::new(conn);
+        category_repo.get_by_id(input.category_id)?;
+
         let category_repo = CategoryRepository::new(conn);
         category_repo.get_by_id(input.category_id)?;
 
@@ -69,6 +78,23 @@ impl ProductService {
     pub fn delete(conn: &Connection, id: i64) -> AppResult<()> {
         let repo = ProductRepository::new(conn);
         repo.get_by_id(id)?; // fails if not found
+
+        // Refuse to delete products that have been used in orders.
+        // Historical tickets and reports depend on them.
+        // Suggest deactivation instead.
+        let usage_count: i64 = conn.query_row(
+            "SELECT COUNT(*) FROM order_items WHERE product_id = ?1",
+            rusqlite::params![id],
+            |row| row.get(0),
+        )?;
+
+        if usage_count > 0 {
+            return Err(AppError::Validation(format!(
+                "cannot delete product: it has been used in {usage_count} order item(s). \
+                Deactivate it instead to hide it from the POS."
+            )));
+        }
+
         repo.delete(id)
     }
 }

@@ -104,3 +104,34 @@
   font-style: italic;
   padding: 0.5rem 0;
 }
+
+
+.product-toggle {
+  position: absolute;
+  top: 6px;
+  right: 32px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--status-free);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.product-toggle:hover {
+  background: var(--bg-card-hover);
+}
+
+.product-card.product-inactive {
+  opacity: 0.45;
+}
+
+.product-card.product-inactive .product-toggle {
+  color: var(--text-muted);
+}

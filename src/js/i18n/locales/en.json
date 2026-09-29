@@ -93,13 +93,16 @@
       "name": "Name",
       "save": "Create"
     },
+    "activate": "Activate",
+    "deactivate": "Deactivate",
     "errors": {
       "create_failed": "Error creating product: {message}",
       "update_failed": "Error updating product: {message}",
       "delete_failed": "Error deleting product: {message}",
       "category_create_failed": "Error creating category: {message}",
       "category_delete_failed": "Error deleting category: {message}",
-      "invalid_price": "Price must be a positive number."
+      "invalid_price": "Price must be a positive number.",
+      "category_required": "Please select a category."
     }
   },
   "tables": {
