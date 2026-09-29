@@ -368,28 +368,31 @@
       border-top: 1px solid #e2e8f0;
     }
 
-    /* ---------- Page 5 (price) — compact overrides ---------- */
+    /* ==========================================================
+       PAGE 5 — PRICE + CTA  (compact overrides)
+       ========================================================== */
 
     .page-5 {
-      padding: 14mm 16mm 20mm;
+      padding: 14mm 16mm 24mm;
     }
 
     .page-5 .page-title {
       font-size: 18pt;
-      margin-bottom: 1.5mm;
+      margin-bottom: 1mm;
     }
 
     .page-5 .page-subtitle {
-      margin-bottom: 5mm;
+      margin-bottom: 4mm;
+      font-size: 10.5pt;
     }
 
     .page-5 .price-hero {
-      padding: 5mm 6mm;
-      margin: 3mm 0;
+      padding: 4mm 6mm;
+      margin: 2mm 0;
     }
 
     .page-5 .price-hero .amount {
-      font-size: 26pt;
+      font-size: 24pt;
     }
 
     .page-5 .price-hero .strike {
@@ -399,6 +402,7 @@
 
     .page-5 .price-hero .label {
       margin-bottom: 1mm;
+      font-size: 9pt;
     }
 
     .page-5 .price-hero .note {
@@ -407,41 +411,54 @@
     }
 
     .page-5 .price-includes {
-      padding: 4mm 5mm;
+      padding: 3.5mm 5mm;
       margin-bottom: 3mm;
     }
 
     .page-5 .price-includes h4 {
       margin-bottom: 1.5mm;
+      font-size: 10.5pt;
+    }
+
+    .page-5 .price-includes ul {
+      margin-bottom: 0;
     }
 
     .page-5 .price-includes ul li {
-      padding: 0.5mm 0 0.5mm 5mm;
+      padding: 0.4mm 0 0.4mm 5mm;
       font-size: 9.5pt;
     }
 
+    .page-5 .price-includes ul li::before {
+      top: 2.5mm;
+      width: 2.5mm;
+      height: 2.5mm;
+    }
+
     .page-5 .section-title {
-      margin: 4mm 0 2mm;
+      margin: 3mm 0 2mm;
       font-size: 12pt;
+      padding-bottom: 1.5mm;
     }
 
     .page-5 .feature-box {
-      padding: 3mm 4mm;
-      margin-bottom: 2mm;
+      padding: 2.5mm 4mm;
+      margin-bottom: 1.5mm;
     }
 
     .page-5 .feature-box h4 {
       font-size: 10.5pt;
-      margin-bottom: 1mm;
+      margin-bottom: 0.8mm;
     }
 
     .page-5 .feature-box p {
       font-size: 9.5pt;
+      line-height: 1.35;
     }
 
     .page-5 .cta {
-      padding: 4mm 6mm;
-      margin-top: 3mm;
+      padding: 3.5mm 5mm;
+      margin-top: 2.5mm;
     }
 
     .page-5 .cta h4 {
@@ -452,6 +469,7 @@
     .page-5 .cta p {
       font-size: 9.5pt;
       margin-bottom: 1.5mm;
+      line-height: 1.35;
     }
 
     .page-5 .cta .contact {
@@ -463,9 +481,7 @@
 </head>
 <body>
 
-  <!-- ============================================
-       PAGE 1 — COVER
-       ============================================ -->
+  <!-- PAGE 1 — COVER -->
   <div class="page cover">
     <div class="cover-top">
       <div class="cover-logo">M</div>
@@ -500,9 +516,7 @@
     </div>
   </div>
 
-  <!-- ============================================
-       PAGE 2 — WHAT IT IS
-       ============================================ -->
+  <!-- PAGE 2 — WHAT IT IS -->
   <div class="page">
     <h1 class="page-title">¿Qué es MesaLista?</h1>
     <p class="page-subtitle">
@@ -563,9 +577,7 @@
     </div>
   </div>
 
-  <!-- ============================================
-       PAGE 3 — SCREENSHOTS
-       ============================================ -->
+  <!-- PAGE 3 — SCREENSHOTS -->
   <div class="page">
     <h1 class="page-title">Así se ve por dentro</h1>
     <p class="page-subtitle">
@@ -597,9 +609,7 @@
     </div>
   </div>
 
-  <!-- ============================================
-       PAGE 4 — COMPARISON
-       ============================================ -->
+  <!-- PAGE 4 — COMPARISON -->
   <div class="page">
     <h1 class="page-title">¿Por qué elegirlo?</h1>
     <p class="page-subtitle">
@@ -674,10 +684,8 @@
     </div>
   </div>
 
-  <!-- ============================================
-       PAGE 5 — PRICE + CTA
-       ============================================ -->
-  <div class="page">
+  <!-- PAGE 5 — PRICE + CTA -->
+  <div class="page page-5">
     <h1 class="page-title">Precio e instalación</h1>
     <p class="page-subtitle">
       Todo incluido. Sin sorpresas. Sin mensualidades.
