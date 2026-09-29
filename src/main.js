@@ -129,3 +129,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   await detectSessionMode();
   updateLoginVisibility();
 });
+
+
+
+

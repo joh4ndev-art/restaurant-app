@@ -35,6 +35,11 @@ let state = {
     isFreeMode: false,  // true when no users exist
   },
   users: [],
+
+  // Backup
+  backups: [],
+  backupFolder: "",
+  autoBackup: true,
 };
 
 export function getState() {

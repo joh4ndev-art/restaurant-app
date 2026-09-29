@@ -241,3 +241,14 @@
   color: var(--text-muted);
   cursor: not-allowed;
 }
+
+.pos-empty-help {
+  grid-column: 1 / -1;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+  background: var(--bg-card);
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+}

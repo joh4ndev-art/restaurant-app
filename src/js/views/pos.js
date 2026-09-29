@@ -158,6 +158,24 @@ function renderProducts(state, container) {
     return;
   }
 
+  // Setup help: no categories at all.
+  if (state.categories.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "pos-empty-help";
+    empty.textContent = t("pos.setup.no_categories");
+    container.appendChild(empty);
+    return;
+  }
+
+  // Setup help: categories exist but no products.
+  if (state.products.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "pos-empty-help";
+    empty.textContent = t("pos.setup.no_products");
+    container.appendChild(empty);
+    return;
+  }
+
   let products = state.products.filter((p) => p.active);
   if (state.pos.selectedCategoryId !== null) {
     products = products.filter((p) => p.category_id === state.pos.selectedCategoryId);

@@ -1,3 +1,4 @@
+pub mod backup;
 pub mod category;
 pub mod order;
 pub mod payment;
@@ -7,6 +8,7 @@ pub mod reports;
 pub mod table;
 pub mod user;
 
+pub use backup::BackupInfo;
 pub use category::{Category, CreateCategoryInput};
 pub use order::{
     Order, OrderItem, OrderItemStatus, OrderStatus, SendOrderInput, SendOrderItemInput,

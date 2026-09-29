@@ -85,3 +85,15 @@ export const printingApi = {
   printKitchenTicket: (orderId) => call("print_kitchen_ticket", { order_id: orderId }),
   openFile: (path) => call("open_file", { path }),
 };
+
+
+export const backupsApi = {
+  list: () => call("list_backups"),
+  create: () => call("create_backup"),
+  restore: (filename) => call("restore_backup", { filename }),
+  remove: (filename) => call("delete_backup", { filename }),
+  getFolder: () => call("get_backup_folder"),
+  setFolder: (path) => call("set_backup_folder", { path }),
+  getAuto: () => call("get_auto_backup"),
+  setAuto: (enabled) => call("set_auto_backup", { enabled }),
+};

@@ -27,6 +27,12 @@ pub fn run() {
             let conn = db::connection::open(&db_path)?;
             db::migrations::run(&conn)?;
 
+            // Daily automatic backup (runs at most once per day).
+            // Failures are logged but never block startup.
+            if let Err(e) = crate::services::BackupService::run_auto_if_needed(app.handle(), &conn) {
+                eprintln!("auto-backup failed: {e}");
+            }
+
             app.manage(AppState::new(conn));
 
             Ok(())
@@ -69,6 +75,14 @@ pub fn run() {
             commands::printing::print_receipt,
             commands::printing::print_kitchen_ticket,
             commands::printing::open_file,
+            commands::backups::list_backups,
+            commands::backups::create_backup,
+            commands::backups::restore_backup,
+            commands::backups::delete_backup,
+            commands::backups::get_backup_folder,
+            commands::backups::set_backup_folder,
+            commands::backups::get_auto_backup,
+            commands::backups::set_auto_backup,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

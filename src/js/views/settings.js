@@ -1,8 +1,8 @@
 import { t, getLocale, getSupportedLocales, setLocale } from "../i18n/index.js";
 import { setState, getState } from "../state/store.js";
-import { usersApi, printingApi } from "../api/ipc.js";
 import { isAdmin, currentRole } from "../auth.js";
 import { openFormModal } from "../components/modal.js";
+import { usersApi, printingApi, backupsApi } from "../api/ipc.js";
 
 const LOCALE_LABELS = { en: "English", es: "Español" };
 
@@ -147,6 +147,18 @@ async function changeReceiptFolder() {
     return;
   }
   await loadReceiptFolder();
+
+  fields: [
+    {
+      name: "path",
+      label: t("settings.printing.folder_path"),
+      type: "text",
+      required: true,
+      value: state.receiptFolder ?? "",
+      placeholder: "/home/user/Documents/receipts",
+      hint: t("settings.printing.folder_hint"),
+    },
+  ]
 }
 
 async function openReceiptFolder() {
@@ -192,6 +204,263 @@ function renderPrintingSection() {
 
   item.append(info, buttons);
   return item;
+}
+
+// ---------- Backup ----------
+
+async function loadBackups() {
+  const [listRes, folderRes, autoRes] = await Promise.all([
+    backupsApi.list(),
+    backupsApi.getFolder(),
+    backupsApi.getAuto(),
+  ]);
+
+  if (!listRes.ok) {
+    alert(t("settings.backup.errors.load_failed", { message: listRes.error.message }));
+    return;
+  }
+  if (!folderRes.ok) {
+    alert(t("settings.backup.errors.load_failed", { message: folderRes.error.message }));
+    return;
+  }
+  if (!autoRes.ok) {
+    alert(t("settings.backup.errors.load_failed", { message: autoRes.error.message }));
+    return;
+  }
+
+  setState({
+    backups: listRes.data,
+    backupFolder: folderRes.data,
+    autoBackup: autoRes.data,
+  });
+  renderRoot();
+}
+
+async function createBackupNow() {
+  const res = await backupsApi.create();
+  if (!res.ok) {
+    alert(t("settings.backup.errors.create_failed", { message: res.error.message }));
+    return;
+  }
+  alert(t("settings.backup.created", { filename: res.data.filename }));
+  await loadBackups();
+}
+
+async function restoreBackup(backup) {
+  const warning = t("settings.backup.confirm_restore", { filename: backup.filename });
+  if (!confirm(warning)) return;
+
+  const res = await backupsApi.restore(backup.filename);
+  if (!res.ok) {
+    alert(t("settings.backup.errors.restore_failed", { message: res.error.message }));
+    return;
+  }
+
+  alert(t("settings.backup.restored"));
+  // Full reload: the entire DB state changed under our feet.
+  window.location.reload();
+}
+
+async function deleteBackup(backup) {
+  if (!confirm(t("settings.backup.confirm_delete", { filename: backup.filename }))) return;
+
+  const res = await backupsApi.remove(backup.filename);
+  if (!res.ok) {
+    alert(t("settings.backup.errors.delete_failed", { message: res.error.message }));
+    return;
+  }
+  await loadBackups();
+}
+
+async function openBackupFolder() {
+  const state = getState();
+  if (!state.backupFolder) return;
+  await printingApi.openFile(state.backupFolder);
+}
+
+async function changeBackupFolder() {
+  const state = getState();
+  const data = await openFormModal({
+    title: t("settings.backup.folder_form_title"),
+    fields: [
+      {
+        name: "path",
+        label: t("settings.backup.folder_path"),
+        type: "text",
+        required: true,
+        value: state.backupFolder ?? "",
+      },
+    ],
+    submitLabel: t("settings.users.form.save"),
+    cancelLabel: t("settings.form.cancel"),
+  });
+  if (!data) return;
+
+  const res = await backupsApi.setFolder(data.path.trim());
+  if (!res.ok) {
+    alert(t("settings.backup.errors.save_failed", { message: res.error.message }));
+    return;
+  }
+  await loadBackups();
+  fields: [
+    {
+      name: "path",
+      label: t("settings.backup.folder_path"),
+      type: "text",
+      required: true,
+      value: state.backupFolder ?? "",
+      placeholder: "/home/user/backups",
+      hint: t("settings.backup.folder_hint"),
+    },
+  ]
+}
+
+async function toggleAutoBackup(enabled) {
+  const res = await backupsApi.setAuto(enabled);
+  if (!res.ok) {
+    alert(t("settings.backup.errors.save_failed", { message: res.error.message }));
+    return;
+  }
+  setState({ autoBackup: enabled });
+  renderRoot();
+}
+
+function formatBytes(bytes) {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+}
+
+function renderBackupSection() {
+  const state = getState();
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "settings-backup";
+
+  // Header row with toggle
+  const headerRow = document.createElement("div");
+  headerRow.className = "setting-item";
+
+  const headerInfo = document.createElement("div");
+
+  const autoLabel = document.createElement("div");
+  autoLabel.className = "setting-label";
+  autoLabel.textContent = t("settings.backup.auto_label");
+
+  const autoDesc = document.createElement("div");
+  autoDesc.className = "setting-desc";
+  autoDesc.textContent = t("settings.backup.auto_description");
+
+  headerInfo.append(autoLabel, autoDesc);
+
+  const toggle = document.createElement("input");
+  toggle.type = "checkbox";
+  toggle.className = "setting-toggle";
+  toggle.checked = state.autoBackup;
+  toggle.addEventListener("change", () => toggleAutoBackup(toggle.checked));
+
+  headerRow.append(headerInfo, toggle);
+  wrapper.appendChild(headerRow);
+
+  // Folder row
+  const folderRow = document.createElement("div");
+  folderRow.className = "setting-item";
+
+  const folderInfo = document.createElement("div");
+
+  const folderLabel = document.createElement("div");
+  folderLabel.className = "setting-label";
+  folderLabel.textContent = t("settings.backup.folder_label");
+
+  const folderDesc = document.createElement("div");
+  folderDesc.className = "setting-desc";
+  folderDesc.textContent = state.backupFolder || t("common.loading");
+
+  folderInfo.append(folderLabel, folderDesc);
+
+  const folderActions = document.createElement("div");
+  folderActions.className = "setting-actions";
+
+  const openBtn = document.createElement("button");
+  openBtn.type = "button";
+  openBtn.className = "btn";
+  openBtn.textContent = t("settings.backup.open_folder");
+  openBtn.addEventListener("click", openBackupFolder);
+
+  const changeBtn = document.createElement("button");
+  changeBtn.type = "button";
+  changeBtn.className = "btn";
+  changeBtn.textContent = t("settings.backup.change_folder");
+  changeBtn.addEventListener("click", changeBackupFolder);
+
+  folderActions.append(openBtn, changeBtn);
+  folderRow.append(folderInfo, folderActions);
+  wrapper.appendChild(folderRow);
+
+  // Actions row
+  const actionsRow = document.createElement("div");
+  actionsRow.className = "settings-backup-actions";
+
+  const createBtn = document.createElement("button");
+  createBtn.type = "button";
+  createBtn.className = "btn btn-primary";
+  createBtn.textContent = t("settings.backup.create_now");
+  createBtn.addEventListener("click", createBackupNow);
+
+  actionsRow.appendChild(createBtn);
+  wrapper.appendChild(actionsRow);
+
+  // Backups list
+  if (state.backups.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "settings-backup-empty";
+    empty.textContent = t("settings.backup.empty");
+    wrapper.appendChild(empty);
+    return wrapper;
+  }
+
+  const list = document.createElement("div");
+  list.className = "settings-backup-list";
+
+  for (const b of state.backups) {
+    const row = document.createElement("div");
+    row.className = "settings-backup-row";
+
+    const info = document.createElement("div");
+    info.className = "settings-backup-info";
+
+    const name = document.createElement("div");
+    name.className = "settings-backup-name";
+    name.textContent = b.filename;
+
+    const meta = document.createElement("div");
+    meta.className = "settings-backup-meta";
+    meta.textContent = `${b.created_at} · ${formatBytes(b.size_bytes)}`;
+
+    info.append(name, meta);
+
+    const actions = document.createElement("div");
+    actions.className = "settings-backup-row-actions";
+
+    const restoreBtn = document.createElement("button");
+    restoreBtn.type = "button";
+    restoreBtn.className = "btn";
+    restoreBtn.textContent = t("settings.backup.restore");
+    restoreBtn.addEventListener("click", () => restoreBackup(b));
+
+    const delBtn = document.createElement("button");
+    delBtn.type = "button";
+    delBtn.className = "btn btn-danger";
+    delBtn.textContent = t("settings.backup.delete");
+    delBtn.addEventListener("click", () => deleteBackup(b));
+
+    actions.append(restoreBtn, delBtn);
+    row.append(info, actions);
+    list.appendChild(row);
+  }
+
+  wrapper.appendChild(list);
+  return wrapper;
 }
 
 // ---------- Users ----------
@@ -422,10 +691,14 @@ function renderRoot() {
   root.append(title, list);
 
   if (isAdmin()) {
+    const backupHeader = document.createElement("h2");
+    backupHeader.textContent = t("settings.backup.title");
+    backupHeader.style.marginTop = "2rem";
+    root.append(backupHeader, renderBackupSection());
+
     const usersHeader = document.createElement("h2");
     usersHeader.textContent = t("settings.users.title");
     usersHeader.style.marginTop = "2rem";
-
     root.append(usersHeader, renderUsersSection());
   }
 }
@@ -437,6 +710,7 @@ export function mountSettingsView() {
   loadRestaurant();
   loadReceiptFolder();
   if (isAdmin()) {
+    loadBackups();
     loadUsers();
   }
 }
@@ -446,6 +720,7 @@ export function reloadSettingsView() {
   loadRestaurant();
   loadReceiptFolder();
   if (isAdmin()) {
+    loadBackups();
     loadUsers();
   }
 }

@@ -56,7 +56,22 @@ export function openFormModal({
       input.required = !!field.required;
       if (field.value !== undefined && field.value !== null) {
         input.value = field.value;
+      } else {
+        input = document.createElement("input");
+        input.type = field.type ?? "text";
+        if (field.step) input.step = field.step;
+        if (field.min !== undefined) input.min = field.min;
+        if (field.placeholder) input.placeholder = field.placeholder;
       }
+
+      if (field.hint) {
+        const hint = document.createElement("small");
+        hint.className = "modal-field-hint";
+        hint.textContent = field.hint;
+        wrapper.appendChild(hint);
+      }
+
+      
 
       inputs[field.name] = input;
       wrapper.appendChild(input);
@@ -104,7 +119,13 @@ export function openFormModal({
     }
     document.addEventListener("keydown", onKey);
 
-    // Focus the first field automatically.
-    Object.values(inputs)[0]?.focus();
+    // Focus and select the first field automatically.
+    const firstInput = Object.values(inputs)[0];
+    if (firstInput) {
+      firstInput.focus();
+      if (typeof firstInput.select === "function") {
+        firstInput.select();
+      }
+    }
   });
 }

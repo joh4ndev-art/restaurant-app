@@ -69,3 +69,6 @@ export function initRouter() {
 export function currentView() {
   return current;
 }
+
+
+

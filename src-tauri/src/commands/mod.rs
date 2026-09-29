@@ -1,3 +1,4 @@
+pub mod backups;
 pub mod categories;
 pub mod orders;
 pub mod payments;

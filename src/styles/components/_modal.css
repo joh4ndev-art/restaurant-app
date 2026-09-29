@@ -73,3 +73,10 @@
   gap: 0.5rem;
   margin-top: 0.75rem;
 }
+
+.modal-field-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+  display: block;
+}

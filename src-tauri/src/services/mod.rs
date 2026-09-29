@@ -1,3 +1,4 @@
+pub mod backup_service;
 pub mod category_service;
 pub mod order_service;
 pub mod payment_service;
@@ -8,6 +9,7 @@ pub mod settings_service;
 pub mod table_service;
 pub mod user_service;
 
+pub use backup_service::BackupService;
 pub use category_service::CategoryService;
 pub use order_service::OrderService;
 pub use payment_service::PaymentService;

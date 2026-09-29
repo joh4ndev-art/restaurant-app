@@ -57,3 +57,10 @@
   font-size: 1.1rem;
   font-weight: 600;
 }
+
+.topbar h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  white-space: nowrap;
+}

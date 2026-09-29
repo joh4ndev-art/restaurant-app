@@ -62,6 +62,10 @@
       "no_table": "Selecciona primero una mesa.",
       "empty_cart": "La cuenta está vacía.",
       "send_failed": "Error al enviar la orden: {message}"
+    },
+    "setup": {
+      "no_categories": "Aún no hay categorías. Créalas en la vista Productos.",
+      "no_products": "Aún no hay productos. Agrégalos en la vista Productos."
     }
   }, 
   "products": {
@@ -190,6 +194,32 @@
       "errors": {
         "save_failed": "Error al guardar carpeta: {message}"
       }
+    },
+    "backup": {
+      "title": "Respaldos",
+      "auto_label": "Respaldo automático diario",
+      "auto_description": "Crea un respaldo por día, al iniciar la app.",
+      "folder_label": "Carpeta de respaldos",
+      "open_folder": "Abrir carpeta",
+      "change_folder": "Cambiar carpeta",
+      "folder_form_title": "Cambiar carpeta de respaldos",
+      "folder_path": "Ruta completa de la carpeta",
+      "create_now": "Crear respaldo ahora",
+      "empty": "Aún no hay respaldos.",
+      "restore": "Restaurar",
+      "delete": "Eliminar",
+      "created": "Respaldo creado: {filename}",
+      "restored": "Respaldo restaurado. La app se recargará ahora.",
+      "confirm_restore": "¿Restaurar el respaldo \"{filename}\"?\n\nLOS DATOS ACTUALES SERÁN REEMPLAZADOS. Esto no se puede deshacer.",
+      "confirm_delete": "¿Eliminar el respaldo \"{filename}\"?",
+      "folder_hint": "Usa una ruta absoluta (empieza por /).",
+      "errors": {
+        "create_failed": "Error al crear respaldo: {message}",
+        "restore_failed": "Error al restaurar respaldo: {message}",
+        "delete_failed": "Error al eliminar respaldo: {message}",
+        "save_failed": "Error al guardar: {message}",
+        "load_failed": "Error al cargar respaldos: {message}"
+      }
     }
   },
   "payments": {
@@ -277,11 +307,13 @@
     "pin": "PIN",
     "submit": "Entrar",
     "invalid": "Usuario o PIN incorrectos.",
-    "confirm_logout": "¿Cerrar la sesión actual?"
+    "confirm_logout": "¿Cerrar la sesión actual?",
+    "logout": "Cerrar sesión"
   },
   "printing": {
     "receipt_saved": "Recibo guardado en:\n{path}\n\n¿Abrirlo?",
     "ticket_saved": "Ticket de cocina guardado en:\n{path}\n\n¿Abrirlo?",
+    "folder_hint": "Usa una ruta absoluta (empieza por /).",
     "errors": {
       "receipt_failed": "Error al generar recibo: {message}"
     },
