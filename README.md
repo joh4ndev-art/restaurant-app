@@ -1,17 +1,17 @@
-# Restaurant POS
+# MesaLista
 
 A native, offline-first point of sale for restaurants, built with Rust and Tauri.
 Fast, lightweight, multilingual, and fully self-contained: all data stays on
 your machine.
 
-![Restaurant POS](docs/screenshots/01-tables.png)
+![MesaLista](docs/screenshots/01-tables.png)
 
 ---
 
 ## Table of contents
 
 - [Features](#features)
-- [Why Restaurant POS](#why-restaurant-pos)
+- [Why MesaLista](#why-restaurant-pos)
 - [Screenshots](#screenshots)
 - [Tech stack](#tech-stack)
 - [Installation](#installation)
@@ -48,7 +48,7 @@ your machine.
 
 ---
 
-## Why Restaurant POS
+## Why MesaLista
 
 Most restaurant software today is:
 
@@ -57,7 +57,7 @@ Most restaurant software today is:
 - **Heavy** → built on Electron, consumes 500 MB+ of RAM.
 - **Closed** → your data lives on someone else's server.
 
-**Restaurant POS** is the opposite:
+**MesaLista** is the opposite:
 
 - Runs entirely on your machine.
 - One-time license, no monthly fees.
@@ -106,19 +106,19 @@ Most restaurant software today is:
 Download the latest `.deb` from the [Releases page](../../releases) and run:
 
 ```bash
-sudo dpkg -i "Restaurant POS_x.y.z_amd64.deb"
+sudo dpkg -i "MesaLista_x.y.z_amd64.deb"
 sudo apt install -f    # only if dependencies are missing
 ```
 
-Then open **Restaurant POS** from your applications menu.
+Then open **MesaLista** from your applications menu.
 
 ### Any Linux distribution (universal)
 
 Download the `.AppImage`, make it executable, and run:
 
 ```bash
-chmod +x "Restaurant POS_x.y.z_amd64.AppImage"
-./"Restaurant POS_x.y.z_amd64.AppImage"
+chmod +x "MesaLista_x.y.z_amd64.AppImage"
+./"MesaLista_x.y.z_amd64.AppImage"
 ```
 
 See [docs/install.md](docs/install.md) for details.

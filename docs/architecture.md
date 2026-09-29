@@ -2,7 +2,7 @@
 
 ## Overview
 
-Restaurant POS is a Tauri v2 desktop application with a strict layered
+MesaLista is a Tauri v2 desktop application with a strict layered
 architecture. The goal is to keep the business logic independent of both
 the framework and the database, so the app can evolve without cascading
 refactors.

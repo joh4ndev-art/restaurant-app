@@ -1,4 +1,4 @@
-# Restaurant POS — One-Pager
+# MesaLista — One-Pager
 
 > Software de punto de venta para restaurantes. 100% local, sin mensualidades.
 
@@ -21,7 +21,7 @@ Un sistema completo para manejar tu restaurante:
 
 ## ¿Por qué elegirlo?
 
-| | Restaurant POS | Software típico en la nube |
+| | MesaLista | Software típico en la nube |
 |---|---|---|
 | **Internet** | No necesita | Requiere conexión estable |
 | **Mensualidad** | No | $80.000 – $140.000 COP/mes |

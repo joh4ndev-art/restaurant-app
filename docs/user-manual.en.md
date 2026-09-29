@@ -1,4 +1,4 @@
-# User Manual — Restaurant POS
+# User Manual — MesaLista
 
 Complete guide to operate the system in a restaurant.
 

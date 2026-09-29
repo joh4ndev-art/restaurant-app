@@ -27,13 +27,13 @@ The app runs comfortably on 10-year-old hardware.
 Get the latest from the [Releases page](../../releases):
 
 ```
-Restaurant POS_x.y.z_amd64.deb
+MesaLista_x.y.z_amd64.deb
 ```
 
 ### 2. Install
 
 ```bash
-sudo dpkg -i "Restaurant POS_x.y.z_amd64.deb"
+sudo dpkg -i "MesaLista_x.y.z_amd64.deb"
 ```
 
 If there are missing dependencies:
@@ -44,7 +44,7 @@ sudo apt install -f
 
 ### 3. Launch
 
-Open the applications menu (Super key), search for **"Restaurant POS"**,
+Open the applications menu (Super key), search for **"MesaLista"**,
 and click the icon. Alternatively, run from the terminal:
 
 ```bash
@@ -72,13 +72,13 @@ rm -rf ~/.local/share/com.johan.restaurant-app
 Get the latest from the [Releases page](../../releases):
 
 ```
-Restaurant POS_x.y.z_amd64.AppImage
+MesaLista_x.y.z_amd64.AppImage
 ```
 
 ### 2. Make it executable
 
 ```bash
-chmod +x "Restaurant POS_x.y.z_amd64.AppImage"
+chmod +x "MesaLista_x.y.z_amd64.AppImage"
 ```
 
 ### 3. Run
@@ -86,7 +86,7 @@ chmod +x "Restaurant POS_x.y.z_amd64.AppImage"
 Double-click the file, or run from the terminal:
 
 ```bash
-./"Restaurant POS_x.y.z_amd64.AppImage"
+./"MesaLista_x.y.z_amd64.AppImage"
 ```
 
 No installation, no `sudo`, no system changes. The AppImage is portable —
@@ -149,7 +149,7 @@ sudo apt install fonts-dejavu fonts-liberation
 Download the new `.deb` and reinstall:
 
 ```bash
-sudo dpkg -i "Restaurant POS_NEW_VERSION_amd64.deb"
+sudo dpkg -i "MesaLista_NEW_VERSION_amd64.deb"
 ```
 
 Your data is preserved automatically.
